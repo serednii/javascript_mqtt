@@ -1,0 +1,76 @@
+.show-block {
+    display: block !important;
+    // height: 100%;
+    // visibility:visible;
+
+}
+
+
+.btn {
+    background-color: #D0C9C0;
+    // outline: none;
+    border: none;
+    min-width: 100px;
+    line-height: 2;
+    color: black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #a0b9C0;
+}
+
+//*************************************Перемикач
+.switch {
+    position: relative;
+
+    .switch-input {
+        position: absolute;
+        width: 70%;
+        line-height: 1.5rem;
+        height: 2rem;
+    }
+
+    .switch-input:focus {
+        border-color: #dfc107;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgb(223 193 7 / 30%);
+    }
+
+}
+
+.form-switch .form-check-input:checked {
+    background-position: left 20px center;
+}
+
+.form-check-input:checked {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+// label 
+.switch-label {
+    position: absolute;
+    line-height: 1.5rem;
+    height: 2rem;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.rele__control-manually-on-off {
+    width: 7rem !important;
+    height: 2rem;
+}
+
+.rele__control-manually-on-off:checked {
+    background-position: left 80px center !important;
+}

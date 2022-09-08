@@ -1,0 +1,17 @@
+.popap_error {
+    display: none;
+    position: fixed;
+    background-color: greenyellow;
+    width: 500px;
+    height: 100px;
+    top: 50px;
+    left: 0%;
+    z-index: 50;
+
+    text-align: center;
+    line-height: 50px;
+}
+
+.popap_error-show {
+    display: block;
+}

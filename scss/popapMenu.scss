@@ -1,0 +1,60 @@
+// ***********************************
+.popap-menu {
+    z-index: 10;
+    position: fixed;
+    top: 50px;
+    left: -150%;
+    width: max-content;
+    padding: 15px;
+    padding-top: 50px;
+    background-color: #D0C9C0;
+    display: flex;
+    flex-direction: column;
+overflow-y: auto;
+    .btn {
+        margin-bottom: 10px;
+        transition: background-color 0.3s;
+        -webkit-transition: background-color 0.3s;
+        -moz-transition: background-color 0.3s;
+        -ms-transition: background-color 0.3s;
+        -o-transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: burlywood;
+    }
+
+    transition: left 0.3s;
+    -webkit-transition: left 0.3s;
+    -moz-transition: left 0.3s;
+    -ms-transition: left 0.3s;
+    -o-transition: left 0.3s;
+}
+
+.popap-menu .popap-menu__btn {
+    background-color:aquamarine;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.popap-menu__show {
+    left: 20px;
+}
+
+
+
+.info-connect {
+    text-align: center;
+    background-color: #a0b9C0;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+
+    .info__ssid {
+        color: red;
+    }
+}
+

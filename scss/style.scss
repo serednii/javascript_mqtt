@@ -1,0 +1,52 @@
+@import "reset";
+@import "global";
+
+
+body {
+    padding-top: 200px;
+    /* position: relative; */
+    position: relative;
+}
+
+.wrapper {
+    max-width: 1920px;
+    width: 100%;
+    // padding: 0 15px;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+/* ----------------- */
+
+// .lamp-on,
+// .lamp-off {}
+
+// .lamp-disable {
+//     display: none;
+// }
+
+
+
+//************************************************
+
+
+
+
+
+// ************************************
+
+// .disable__global {
+//     // display: none;
+// }
+@import "setingSensor";
+@import "setingRele";
+@import "popapInfo";
+@import "popapMenu";
+@import "popapLocalStorage";
+@import "burgerMenu";
+@import "popapError";

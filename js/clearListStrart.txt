@@ -1,0 +1,4 @@
+1 clear timer
+2 clear name sensor
+3 clear name rele
+clear temp vkl otlk

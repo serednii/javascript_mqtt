@@ -1,0 +1,688 @@
+.btn-label {
+    font-size: 0.6rem;
+    width: 100%;
+    margin-right: -30px;
+    padding: 0 5px;
+    // width: 120px;
+    text-align: left;
+    color: black;
+    background-color: #D0C9C0;
+    border-color: #a0b9C0;
+    cursor: pointer;
+    text-transform: uppercase;
+    line-height: 3.5;
+    border-radius: 0.4rem !important;
+    -webkit-border-radius: 0.4rem !important;
+    -moz-border-radius: 0.4rem !important;
+    -ms-border-radius: 0.4rem !important;
+    -o-border-radius: 0.4rem !important;
+}
+
+.btn-label:hover {
+    background-color: #a0b9C0;
+}
+
+.btn-input {
+    // margin-right: 35px;
+    transform: scale(150%);
+    -webkit-transform: scale(150%);
+    -moz-transform: scale(150%);
+    -ms-transform: scale(150%);
+    -o-transform: scale(150%);
+    margin-top: 9px;
+    z-index: 1;
+}
+
+//********************************************RELE lIST****************************************
+.rele__list {
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #f5f1ed;
+}
+
+.rele__item {
+    width: 435px;
+    border: 1px solid #0062cc;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #EDE6DB;
+
+    &-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 15px;
+        background-color: #a0b9C0;
+        padding: 10px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        margin-bottom: 10px;
+    }
+}
+
+.rele__item-title,
+.rele__item-title-pin,
+.rele__item-title-name {
+    /* display: inline-block; */
+    font-size: 1.5rem;
+    font-weight: 700;
+    /* margin-right: 10px; */
+}
+
+
+
+
+//**************************************NAME RELE**************************************************
+.rele__name-wrapper {
+    margin-bottom: 10px;
+}
+
+.rele__name-input {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    width: 65%;
+}
+
+.rele__name-btn {
+    background-color: #D0C9C0;
+    // outline: none;
+    border: none;
+    min-width: 30%;
+    line-height: 2;
+    color: black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    // transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.rele__name-btn:hover {
+    background-color: #a0b9C0;
+}
+
+//************************************RELE SETING SECTION*******************************************
+
+
+//**************************************rele__seting-switch-switch**********************************
+.rele__seting-sensor-timer {
+    position: relative;
+}
+
+.rele__seting-parent {
+    padding: 5px;
+    background-color: #A0C9C0;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.rele__seting-switch__box {
+    // padding-top: 0.6rem;
+    // margin-bottom: 35px;
+    // background-color: #50b9C0;
+    height: 2.7rem;
+    display: flex;
+}
+
+.rele__seting-switch__checked {
+    flex-basis: 40%;
+    // background-color: #0062cc;
+    margin-right: 15px;
+
+    .rele__seting-switch__input {
+        width: 150px;
+        left: 30%;
+    }
+
+    .rele__seting-switch__label {
+        top: 8px;
+        left: 68% !important;
+    }
+
+}
+
+.rele__seting-switch__info {
+    padding: 0 10px;
+    font-size: 0.7rem;
+    flex-basis: 60%;
+
+    span {
+        text-align: center;
+        background-color: burlywood;
+        padding: 0 7px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        // min-width: 150px;
+    }
+}
+
+.rele__seting-switch__sensor {
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.rele__seting-switch__temp-on {
+    margin-right: 5px;
+    color: blue;
+}
+
+.rele__seting-switch__temp-off {
+    color: red;
+}
+
+
+.rele__section-seting {
+    display: none;
+    //   height:  0;
+    //   visibility: hidden;
+    // animation-name: example;
+    // animation-duration: 2s;
+}
+
+// @keyframes example {
+//     0%   {height: 0;}
+//      50%   {height: 50%;}
+//     100% {height: auto;}
+//   }
+
+
+
+
+
+.input-control-error__box {
+    margin-bottom: 10px;
+}
+
+.input-control-error__box,
+.rele-temp-change__box {
+
+    background-color: #417D7A;
+    padding: 5px 15px;
+    // margin-bottom: 10px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+
+    .btn-label {
+        padding: 0 10px;
+        width: 120px;
+        font-size: 1rem;
+        line-height: 2;
+    }
+
+    // .btn-label:hover {
+    //     background-color: #a0b9C0;
+    // }
+
+    .btn-input {
+        margin-right: 35px;
+    }
+
+}
+
+// .rele-temp-change__box {
+//     margin-bottom: 10px;    
+// }
+
+//************************************ERROR  SECTION************************************************
+
+.input-control-error__title,
+.rele-temp-change__title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.input-control-error__label {}
+
+//************************************RELE CHANGE ON OFF  INVERT SECTION************************************************
+
+.rele-temp-change__label {}
+
+.input-control-error {}
+
+.rele-temp-change-radio {}
+
+//************************************RELE CONTROL SENSOR SECTION************************************************
+
+.rele__seting-sensor {
+    background-color: #417D7A;
+    padding: 5px 15px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    margin-bottom: 15px;
+
+    &__title {
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+
+    &__select-label {
+        font-size: 1.1rem;
+        margin-right: 10px;
+        line-height: 1.4rem;
+    }
+
+    &__select {
+        width: 100%;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+
+    &__select:disabled {
+        color: #0069d9;
+    }
+
+    //Управління термодатчиком
+    .rele-temp-change {
+        display: flex;
+    }
+
+    .rele-temp-change-input {
+        // margin-right: 15px;
+        width: 50%;
+        text-align: center;
+    }
+
+    .rele-temp__inner {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .rele-temp-vkl,
+    .rele-temp-otkl {
+        width: 50px;
+        line-height: 1.8;
+    }
+
+    .rele-temp-vkl-label,
+    .rele-temp-otkl-label {
+        display: inline-block;
+        min-width: 80px;
+        color: black;
+    }
+
+    .rele-temp-change-select {
+        width: 50%;
+        display: block;
+        margin-top: 32px;
+
+        div {
+            display: flex;
+            margin-bottom: 15px;
+
+            .btn-label {
+                font-size: 0.7rem;
+                line-height: 2.9;
+            }
+
+            .btn-input {
+                margin-top: 10px;
+            }
+        }
+
+    }
+
+    .rele-temp-btn {
+        margin: 0 auto;
+        // background-color: #D0C9C0;
+        // // outline: none;
+        // border: none;
+        // min-width: 100px;
+        // line-height: 2;
+        // color: black;
+        // border-radius: 5px;
+        // -webkit-border-radius: 5px;
+        // -moz-border-radius: 5px;
+        // -ms-border-radius: 5px;
+        // -o-border-radius: 5px;
+    }
+
+    // .rele-temp-btn:hover {
+    //     background-color: #a0b9C0;
+    // }
+
+}
+
+//************************************rele__timer-seting-show************************************************
+.rele__timer-seting-box {
+    display: flex;
+    margin-bottom: 35px;
+}
+
+.rele__timer-seting-show {
+    // margin-bottom: 25px;
+    flex-basis: 55%;
+    // background-color: #0062cc;
+    margin-right: 47px;
+
+    .rele__timer-seting-show__label {
+        // position: absolute;
+        // line-height: 1.5rem;
+        // height: 2rem;
+        // top: 8px;
+        // left: 50%;
+        // transform: translateX(-50%);
+        // -webkit-transform: translateX(-50%);
+        // -moz-transform: translateX(-50%);
+        // -ms-transform: translateX(-50%);
+        // -o-transform: translateX(-50%);
+        width: 200px;
+        top: 8px;
+        left: 67% !important;
+    }
+
+    .rele__timer-seting-show__input {
+        // left: 60%;
+        // transform: translateX(-50%);
+        // -webkit-transform: translateX(-50%);
+        // -moz-transform: translateX(-50%);
+        // -ms-transform: translateX(-50%);
+        // -o-transform: translateX(-50%);
+        width: 250px;
+        left: 18%;
+    }
+
+}
+
+.rele__timer-seting-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    display: none;
+
+}
+
+
+
+
+
+
+
+
+
+//************************************rele__timer-seting-show************************************************
+.rele-control-timer {
+    display: none;
+    width: 100%;
+
+    .delay-when-turned__inner {
+        display: none;
+    }
+
+    .timer-date__datetime-control {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .timer-date__item {
+        margin-bottom: 50px;
+        background-color: #417D7A;
+        padding: 10px 5px;
+    }
+
+    .timer-date__item+.timer-date__item {
+        display: none;
+    }
+
+    .timer-date__datetime-inner {
+        margin-bottom: 10px;
+
+        .datetime {
+            width: 49%;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            height: 2rem;
+        }
+    }
+
+    // .timer-date__time-control {
+    //     margin-bottom: 10px;
+    //     text-align: center;
+    // }
+
+    .time-inner {
+        margin-bottom: 10px;
+        // display: flex;
+        // flex-wrap: wrap;
+        // justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+
+        .time {
+            // width: 22%;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            height: 2rem;
+            margin-bottom: 10px;
+        }
+    }
+
+    .timer-day {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        // margin-bottom: 15px;
+        .label-day {
+            background-color: #a0b9C0;
+            width: 2.5rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            cursor: pointer;
+            // margin-right: 5px;
+        }
+
+        .timer-day:hover {
+            background-color: #a0b9C0;
+        }
+
+        .label-day.checked {
+            background-color: aquamarine;
+
+        }
+
+        .day {
+            display: none;
+            // cursor: pointer;
+        }
+    }
+
+}
+
+//************************************input-control-manually************************************************
+
+.btn-save-clear__box {
+    margin: 0 auto;
+    width: fit-content;
+    margin-bottom: 30px;
+}
+
+.time__btn {
+    margin-right: 25px;
+}
+
+.time__btn-clear {}
+
+//************************************input-control-manually************************************************
+
+
+//************************************input-control-manually************************************************
+.input-control-manually {
+    margin-bottom: 25px;
+
+    .input-control-manually__label {}
+
+    .input-control-manually__input {
+        left: 60%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+    }
+
+}
+
+
+
+.form-switch .form-check-input:checked {
+    background-position: left 20px center;
+}
+
+//************************************input-control-manually************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+.rele__control-manually {
+    display: none;
+    margin: 0 auto 10px;
+    width: fit-content;
+
+    &_off {
+        margin-right: 35px;
+    }
+
+    &_on {}
+}
+
+
+
+.date-show-block {
+    display: block !important;
+}
+
+.time-show-block {
+    display: block !important;
+}
+
+.block__show {
+    display: block;
+}
+
+.block__hidden {
+    display: none;
+}
+
+
+
+
+//////Управління таймером
+
+
+//////Управління таймером
+
+
+.time-inner {
+    .hiden-time {
+        display: none;
+    }
+}
+
+.disable {
+    //переключення ламп 
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+.active {
+    background-color: blueviolet;
+}
+
+.red {
+    color: red;
+}
+
+.date-red__color {
+    color: crimson;
+}
+
+.time-red__color {
+    color: crimson;
+}
+
+.red__color {
+    color: crimson;
+}
+
+.red__backround {
+    background-color: darksalmon;
+}
+
+.time-red__backround {
+    background-color: darksalmon;
+}
+
+.blue__backround {
+    background-color: #0062cc;
+}
+
+.date-blue__backround {
+    background-color: #0062cc;
+}
+
+.time-blue__backround {
+    background-color: #0062cc;
+}
+
+.blink__eror-red {
+    background-color: crimson;
+}
+
+.click {
+    background-color: coral;
+    cursor: pointer;
+}
