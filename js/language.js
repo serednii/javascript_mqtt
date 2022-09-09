@@ -101,7 +101,6 @@ const langArr = {
     },
 }
 
-
 // languageChange('ua');
 
 function languageChange(language) {
@@ -114,7 +113,6 @@ function languageChange(language) {
         });
     }
 }
-
 
 document.querySelector('.popap-menu__btn-ua ').addEventListener('click', () => {
     console.log('UAUAUA');
