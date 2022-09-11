@@ -710,13 +710,15 @@ document.querySelectorAll('.rele__item').forEach((parent) => {
 
 
 function showSectionTimeAndSeting(event, parent, classLink, classShowSection) { //Покузує або скриває блок з настройками
+  event.preventDefault();
+  console.log("44444444444444444444")
   if (event.target.classList.contains('on')) {
-    parent.querySelector(classLink).classList.add(classLink.substring(1) + '-on');
-    parent.querySelector(classShowSection).classList.add('show-block');
-    event.target.classList.remove('on');
-  } else {
     parent.querySelector(classLink).classList.remove(classLink.substring(1) + '-on');
     parent.querySelector(classShowSection).classList.remove('show-block');
+    event.target.classList.remove('on');
+  } else {
+    parent.querySelector(classLink).classList.add(classLink.substring(1) + '-on');
+    parent.querySelector(classShowSection).classList.add('show-block');
     event.target.classList.add('on');
   }
 }

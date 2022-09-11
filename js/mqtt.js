@@ -160,10 +160,8 @@ function onMessageArrived(message) {
 
     if (message.destinationName === stanRele) {
         //получаємо дані про стан кожного реле включене або відключене 
-
         let stanReleTemp = parseInt(message.payloadString);
         const releOnOff = document.querySelectorAll('.rele__control-manually-on-off');
-
         for (n = 0; n < 8; n++) {
             //Засвічуємо або гасимо лампочки
             if (stanReleTemp & 1 << n) {
