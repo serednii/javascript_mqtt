@@ -694,12 +694,8 @@ function compareSensorAddressHtml() {
 
 document.querySelectorAll('.rele__item').forEach((parent) => {
 
-
-
   parent.addEventListener('change', function (event) {
-    // console.log('/*/*/*/*/*/*')
     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
-    // console.log(event.target);
     const datetime = parent.querySelectorAll('.datetime');
     const time = parent.querySelectorAll('.time');
     //при зміні на .datetime і  .time визивати обробку
@@ -707,30 +703,21 @@ document.querySelectorAll('.rele__item').forEach((parent) => {
     // console.log(e)
     // console.log(event.target)
     // console.log(parent)
-
-    if (event.target.classList.contains('rele__seting-switch__input')) switchSeting(event, parent);
     if (event.target.classList.contains('day')) chekChecedDay(event);
     if (event.target.classList.contains('datetime')) chekDate(parent, datetime, time);
     if (event.target.classList.contains('time')) chekTime(parent, datetime, time);
     showTimerIcons(parent, datetime, time); //Добавляє іконки таймера
   });
+
+  parent.addEventListener('click', function (event) {
+    event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
+    if (event.target.classList.contains('rele__seting-switch__input')) {
+      switchSeting(event, parent);
+      console.log(event.target);
+    }
+  });
+
 });
-
-// document.querySelectorAll('.rele__item').forEach(function (parent) {
-//   e.addEventListener('click', function (event) {
-//     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
-//     // console.log('/*/*/*/*/*/*')
-//     // console.log(event.target.closest('.rele__item'));
-//     // console.log(this);
-
-//     //при зміні на .datetime і  .time визивати обробку
-//     // const parent = parent.closest('.rele__item');
-
-//     // console.log(e)
-//     // console.log(parent
-
-//   });
-// });
 
 
 // ********************************************************************************************************************************************************************
@@ -762,9 +749,18 @@ function showTimerIcons(parent, datetime, time) {
   }
 }
 
+
 function switchSeting(event, parent) { //Покузує або скриває блок з настройками
-  if (event.target.checked) parent.querySelector('.rele__section-seting').classList.add('show-block');
-  else parent.querySelector('.rele__section-seting').classList.remove('show-block');
+  console.log('testtest')
+  if (event.target.classList.contains('on')) {
+    parent.querySelector('.rele__seting-svg').classList.add('rele__seting-svg-on');
+    parent.querySelector('.rele__section-seting').classList.add('show-block');
+    event.target.classList.remove('on');
+  } else {
+    parent.querySelector('.rele__seting-svg').classList.remove('rele__seting-svg-on');
+    parent.querySelector('.rele__section-seting').classList.remove('show-block');
+    event.target.classList.add('on');
+  }
 }
 
 function chekChecedDay(event) { //Включає виключає дні тижня

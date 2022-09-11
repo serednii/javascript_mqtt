@@ -63,14 +63,16 @@
   arrayClass.forEach(e => {
     let L = document.querySelectorAll(e.labelData);
     let I = document.querySelectorAll(e.inputData);
-    setIdAndFor(L, I, e.nameData);
+    if (L && I) setIdAndFor(L, I, e.nameData);
   });
 
 
   function setIdAndFor(classLabel, clasInput, nameId) {
     clasInput.forEach((e, i) => {
-      e.setAttribute('id', (nameId + i));
-      classLabel[i].setAttribute('for', ((nameId + i)));
+      if (classLabel[i] && e) {
+        e.setAttribute('id', (nameId + i));
+        classLabel[i].setAttribute('for', ((nameId + i)));
+      }
       // console.log(classLabel[i])
     });
   }
