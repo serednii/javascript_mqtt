@@ -39,11 +39,6 @@ const langArr = {
         "en": 'If the temperature sensor or timer malfunctions, leave the relay',
         "cz": 'Pokud dojde k poruše teplotního čidla nebo časovače, opusťte relé',
     },
-    "seting_switch": { //
-        "ua": 'Настройки',
-        "en": 'Seting',
-        "cz": 'Nastavení',
-    },
     "on": { //
         "ua": 'вкл',
         "en": 'on',
@@ -64,11 +59,11 @@ const langArr = {
         "en": 'Temperature sensor control',
         "cz": 'Ovládání teplotním čidlem'
     },
-    "control_timer": { //
-        "ua": ' Управління таймером',
-        "en": 'Timer control',
-        "cz": 'Ovládání časovače'
-    },
+    // "control_timer": { //
+    //     "ua": ' Управління таймером',
+    //     "en": 'Timer control',
+    //     "cz": 'Ovládání časovače'
+    // },
     "manual_control": { //
         "ua": 'Ручне управління',
         "en": 'Manual control',

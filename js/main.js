@@ -374,16 +374,7 @@ document.querySelectorAll('select').forEach(function (e) {
 
 // **************************************************************************************
 
-document.querySelectorAll('.rele__timer-seting-show__input').forEach(function (e) {
-  e.addEventListener('click', function (a) {
-    const parent = e.closest('.rele__item');
-    if (a.target.checked) {
-      parent.querySelector('.rele-control-timer').classList.add('block__show'); //Добавляємо клас відкриваємо Select
-    } else {
-      parent.querySelector('.rele-control-timer').classList.remove('block__show');
-    }
-  });
-});
+
 
 
 // **************************************************************************************
@@ -711,15 +702,49 @@ document.querySelectorAll('.rele__item').forEach((parent) => {
 
   parent.addEventListener('click', function (event) {
     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
-    if (event.target.classList.contains('rele__seting-switch__input')) {
-      switchSeting(event, parent);
-      console.log(event.target);
-    }
+    if (event.target.classList.contains('rele__seting-switch__input')) showSectionTimeAndSeting(event, parent, '.rele__seting-svg', '.rele__section-seting');
+    if (event.target.classList.contains('rele__timer-seting-show__input')) showSectionTimeAndSeting(event, parent, '.rele__timer-seting-svg', '.rele-control-timer');
   });
 
 });
 
 
+function showSectionTimeAndSeting(event, parent, classLink, classShowSection) { //Покузує або скриває блок з настройками
+  if (event.target.classList.contains('on')) {
+    parent.querySelector(classLink).classList.add(classLink.substring(1) + '-on');
+    parent.querySelector(classShowSection).classList.add('show-block');
+    event.target.classList.remove('on');
+  } else {
+    parent.querySelector(classLink).classList.remove(classLink.substring(1) + '-on');
+    parent.querySelector(classShowSection).classList.remove('show-block');
+    event.target.classList.add('on');
+  }
+}
+
+// function switchSeting(event, parent) { //Покузує або скриває блок з настройками
+//   console.log('testtest')
+//   if (event.target.classList.contains('on')) {
+//     parent.querySelector('.rele__seting-svg').classList.add('rele__seting-svg-on');
+//     parent.querySelector('.rele__section-seting').classList.add('show-block');
+//     event.target.classList.remove('on');
+//   } else {
+//     parent.querySelector('.rele__seting-svg').classList.remove('rele__seting-svg-on');
+//     parent.querySelector('.rele__section-seting').classList.remove('show-block');
+//     event.target.classList.add('on');
+//   }
+// }
+
+// function showSectionTime(event, parent) {
+//   if (event.target.classList.contains('on')) {
+//     parent.querySelector('.rele__timer-seting-svg').classList.add('rele__timer-seting-svg-on');
+//     parent.querySelector('.rele-control-timer').classList.add('block__show'); //Добавляємо клас
+//     event.target.classList.remove('on');
+//   } else {
+//     parent.querySelector('.rele__timer-seting-svg').classList.remove('rele__timer-seting-svg-on');
+//     parent.querySelector('.rele-control-timer').classList.remove('block__show');
+//     event.target.classList.add('on');
+//   }
+// }
 // ********************************************************************************************************************************************************************
 function showTimerIcons(parent, datetime, time) {
   const timerIcons = parent.querySelectorAll('.rele__timer-seting-icon');
@@ -750,18 +775,15 @@ function showTimerIcons(parent, datetime, time) {
 }
 
 
-function switchSeting(event, parent) { //Покузує або скриває блок з настройками
-  console.log('testtest')
-  if (event.target.classList.contains('on')) {
-    parent.querySelector('.rele__seting-svg').classList.add('rele__seting-svg-on');
-    parent.querySelector('.rele__section-seting').classList.add('show-block');
-    event.target.classList.remove('on');
-  } else {
-    parent.querySelector('.rele__seting-svg').classList.remove('rele__seting-svg-on');
-    parent.querySelector('.rele__section-seting').classList.remove('show-block');
-    event.target.classList.add('on');
-  }
-}
+
+
+
+
+//       parent.querySelector('.rele-control-timer').classList.add('block__show'); //Добавляємо клас відкриваємо Select
+//     } else {
+//       parent.querySelector('.rele-control-timer').classList.remove('block__show');
+
+
 
 function chekChecedDay(event) { //Включає виключає дні тижня
   event.target.previousElementSibling.classList.toggle('checked');
