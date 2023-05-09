@@ -10,7 +10,21 @@ document.querySelector('.popap-local-storage__btn-remove').addEventListener('cli
 document.querySelector('.popap-local-storage__btn-close').addEventListener('click', closeForm)
 
 
+const startLocalStoreg = () => {
+  return new Promise(resolve => {
+    const language = localStorage.getItem('Language');
+    if (language) {
+      if (language == 'ua' || language == 'en' || language == 'cz') {
+        languageChange(language); //langugage  write in localStrarage 
+      }
+    } else {
+      languageChange('ua'); //default language
+    }
+    console.log('startLocalStoreg()')
+    resolve();
+  })
 
+}
 
 function selectItem(event) {
   event.preventDefault();

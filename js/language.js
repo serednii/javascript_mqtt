@@ -100,32 +100,32 @@ const langArr = {
 
 function languageChange(language) {
     for (let key in langArr) {
-        console.log('key  ' + key);
+        // console.log('key  ' + key);
         let elem = document.querySelectorAll('.lan-' + key);
         elem.forEach(e => {
             e.innerHTML = langArr[key][language];
-            console.log('language = ' + langArr[key][language]);
+            // console.log('language = ' + langArr[key][language]);
         });
     }
 }
 
+
 document.querySelector('.popap-menu__btn-ua ').addEventListener('click', () => {
-    console.log('UAUAUA');
+    // console.log('UAUAUA');
     localStorage.setItem('Language', 'ua');
     languageChange('ua');
-    // addEventListenerClick();
+
 });
 
 document.querySelector('.popap-menu__btn-en').addEventListener('click', () => {
-    console.log('ENENENE');
+    // console.log('ENENENE');
     languageChange('en');
     localStorage.setItem('Language', 'en');
-    // addEventListenerClick();
+
 });
 
 document.querySelector('.popap-menu__btn-cz').addEventListener('click', () => {
-    console.log('CZCZCZS');
+    // console.log('CZCZCZS');
     localStorage.setItem('Language', 'cz');
     languageChange('cz');
-    // addEventListenerClick();
 });

@@ -29,7 +29,7 @@
     -moz-transform: scale(150%);
     -ms-transform: scale(150%);
     -o-transform: scale(150%);
-    margin-top: 9px;
+    // margin-top: 9px;
     z-index: 1;
 }
 
@@ -377,7 +377,7 @@
             }
 
             .btn-input {
-                margin-top: 10px;
+                // margin-top: 10px;
             }
         }
 
@@ -412,7 +412,6 @@
     background-color: #A0C9C0;
     margin-bottom: 15px;
     border-radius: 10px;
-    margin-bottom: 35px;
 }
 
 .rele__timer-seting-show {
@@ -589,17 +588,48 @@
 //************************************input-control-manually************************************************
 .input-control-manually {
     margin-bottom: 25px;
+    padding: 5px;
+    background-color: #A0C9C0;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    display: flex;
 
-    .input-control-manually__label {}
-
-    .input-control-manually__input {
-        left: 60%;
-        transform: translateX(-50%);
-        -webkit-transform: translateX(-50%);
-        -moz-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        -o-transform: translateX(-50%);
+    .input-control-manually-svg-box {
+        display: flex;
+        justify-content: center;
+        flex-basis: 80px;
     }
+
+    .input-control-manually-svg {
+        // display: block;
+        position: relative;
+        z-index: -10;
+    }
+
+    .input-control-manually-svg-on path {
+        fill: red;
+    }
+
+    .rele__control-manually-show {
+        display: block;
+        position: relative;
+        width: 32px;
+        height: 32px;
+        z-index: 10;
+
+        // background-color: #56ACE0;
+    }
+
+    // .input-control-manually__label {}
+
+    // .input-control-manually__input {
+    //     left: 60%;
+    //     transform: translateX(-50%);
+    //     -webkit-transform: translateX(-50%);
+    //     -moz-transform: translateX(-50%);
+    //     -ms-transform: translateX(-50%);
+    //     -o-transform: translateX(-50%);
+    // }
 
 }
 
@@ -607,6 +637,8 @@
 
 .form-switch .form-check-input:checked {
     background-position: left 20px center;
+    margin-top: 0;
+
 }
 
 //************************************input-control-manually************************************************
@@ -624,7 +656,7 @@
 
 .rele__control-manually {
     display: none;
-    margin: 0 auto 10px;
+    margin: 0 auto;
     width: fit-content;
 
     &_off {

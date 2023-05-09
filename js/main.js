@@ -12,55 +12,63 @@
 // if (localStorage.getItem('Device') != null || itemDevice.length > 0) { //якщо в LOCALSTORAGE  є щось записано і є списки на екрані 
 //   arr = JSON.parse(localStorage.getItem('Device'));
 // }
-
-window.addEventListener('resize', start);
-
-function start() {
+window.addEventListener('resize', showWidth);
+function showWidth() {
   document.querySelector('.widthtablet').innerText = document.documentElement.clientWidth;
-
 }
-start(); {
-  const language = localStorage.getItem('Language');
-  if (language) {
-    if (language == 'ua' || language == 'en' || language == 'cz') {
-      languageChange(language); //langugage  write in localStrarage 
-    }
-  } else {
-    languageChange('ua'); //default language
-  }
+showWidth();
+//window.onload = function () {
+
+
+
+
+async function go() {
+  await addIdAndFor();
+  await startLocalStoreg();
+  //await innerHtmlText();
 }
+go();
 
 
 
 
 
-// addEventListenerClick();
-
-// function addEventListenerClick() {
-
-// let userName = 'mykola';
 
 
 
 
 
-function convertToBinary1(number) {
-  let num = number;
-  let binary = (num % 2).toString();
-  for (; num > 1;) {
-    num = parseInt(num / 2);
-    binary = (num % 2) + (binary);
-  }
-  // console.log(binary);
-}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function convertToBinary1(number) {
+//   let num = number;
+//   let binary = (num % 2).toString();
+//   for (; num > 1;) {
+//     num = parseInt(num / 2);
+//     binary = (num % 2) + (binary);
+//   }
+//   // console.log(binary);
+// }
 
 
 const popapInfoWrapper = document.querySelector('.popap-info__wrapper');
 $(document).ready(function () {
   $("#menu").on("click", "a", function (event) {
-    event.preventDefault();
+    event.preventDefault();//при нажатии на ссылку, мы переходим по адресу этой ссылки. Вызов preventDefault() отменит это поведение
     var id = $(this).attr('href'),
       top = $(id).offset().top - popapInfoWrapper.clientHeight - 20;
     // top = $(id).offset().top;
@@ -70,9 +78,18 @@ $(document).ready(function () {
   });
 });
 
+
+//}//window.onload = function  end
+
+
+
+
+
+
+
 let objDevice = {};
 let objEeprom = {};
-let objSensorEepromUpr = {};
+let objSensorEepromUpr = [];
 let objSensorVklOtklTemp = {};
 let objNameSensor = {};
 let objNameRele = {};
@@ -99,7 +116,6 @@ let element = void 0;
 //==================================
 
 
-
 /************************************************************************************************************** */
 setInterval(function () {
   // Провірка на дані прийшли чи ні якщо обєти пусті то відправляємо запрос на повторну загрузку
@@ -122,7 +138,7 @@ setInterval(function () {
     console.log(isEmpty(objDevice));
 
     console.log('objSensorEepromUpr  ');
-    console.log(isEmpty(objSensorEepromUpr));
+    console.log(objSensorEepromUpr);
 
     console.log('objSensorVklOtklTemp  ');
     console.log(isEmpty(objSensorVklOtklTemp));
@@ -154,9 +170,6 @@ setInterval(function () {
 }, 10000);
 
 //************************************************************************************************************** */
-
-
-
 
 
 //*******************************************************************
@@ -214,12 +227,14 @@ function fun1() {
       const radioSingle = e.querySelectorAll('.rele-temp-change-single');
       const releError = e.querySelectorAll('.input-control-error');
 
-      k = objSensorEepromUpr.obj[clickRele].number;
+      k = objSensorEepromUpr.obj[clickRele];
+      // k = objSensorEepromUpr.obj[clickRele].number;
+
       const numSensor = k & 0x0F; // номер сенсора який управляє даним реле
       // console.log('k   +++ ' + clickRele + '  ' + (k &= ~240));
       // console.log('--');
       // console.log(numSensor);
-      convertToBinary1(numSensor);
+      // convertToBinary1(numSensor);
 
       if (radioSingle !== null) //якщо не пустий масив
 
@@ -433,39 +448,48 @@ document.querySelectorAll('.rele__name-btn').forEach(function (e, i) {
 // const releTempChangeRadio = document.querySelectorAll('.rele-temp-change-radio');
 // const releTempChangeSingle = document.querySelectorAll('.rele-temp-change-single');
 
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
 
 // *************************************************************************
 // // При несправності термодатчика або таймера реле залишаємо вкл або викл
 inputControlError.forEach(function (e, i) {
 
   e.addEventListener('change', function () {
-    try {
-      let ii = Math.trunc(i / 2);
-      // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
-      // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
-      // let temp = objSensorEepromUpr.obj[ii].number;
+    // try {
+    let ii = Math.trunc(i / 2);
+    // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
+    // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
+    // let temp = objSensorEepromUpr.obj[ii].number;
 
-      if (e.value == '0') {
-        // console.log('000');
-        objSensorEepromUpr.obj[ii].number &= ~(1 << 6);
-      } else if (e.value == '1') {
-        // console.log('111');
-        objSensorEepromUpr.obj[ii].number |= 1 << 6;
-      }
-      s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-      console.log('setReleEpromUprErorrReleVklVukl----' + s);
-      convertToBinary1(objSensorEepromUpr.obj[ii].number)
-
-      sendMessage(setReleEpromUprErorrReleVklVukl, s);
-    } catch (e) {
-      // console.log('ERROR  ' + e);
+    if (e.value == '0') {
+      // console.log('000');
+      objSensorEepromUpr.obj[ii] &= ~(1 << 6);
+    } else if (e.value == '1') {
+      // console.log('111');
+      objSensorEepromUpr.obj[ii] |= 1 << 6;
     }
+    let objTemp = {
+      "number": ii,
+      "data": objSensorEepromUpr.obj[ii]
+    };
+    // s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
+    console.log('setReleEpromUprErorrReleVklVukl----' + JSON.stringify(objTemp));
+    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
+
+    sendMessage(setReleEpromUprErorrReleVklVukl, JSON.stringify(objTemp));
+    // } catch (e) {
+    //   console.log('ERROR  ' + e);
+    // }
   });
 });
 
 // //  / Включаємо реле або Виключаємо реле  при зміні температури або часу
 releTempChangeRadio.forEach(function (e, i) {
   e.addEventListener('change', function () {
+    // try {
     let ii = Math.trunc(i / 2);
     // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
     // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
@@ -473,23 +497,30 @@ releTempChangeRadio.forEach(function (e, i) {
 
     if (e.value == '0') {
       // console.log('000');
-      objSensorEepromUpr.obj[ii].number &= ~(1 << 5);
+      objSensorEepromUpr.obj[ii] &= ~(1 << 5);
     } else if (e.value == '1') {
       // console.log('111');
-      objSensorEepromUpr.obj[ii].number |= 1 << 5;
+      objSensorEepromUpr.obj[ii] |= 1 << 5;
     }
-    s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-    console.log('setReleEpromUprOneOrTwoRangeTemp----' + s);
-    convertToBinary1(objSensorEepromUpr.obj[ii].number)
+    let objTemp = {
+      "number": ii,
+      "data": objSensorEepromUpr.obj[ii]
+    };
+    // let s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
+    console.log('setReleEpromUprOneOrTwoRangeTemp----' + JSON.stringify(objTemp));
+    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
 
-    sendMessage(setReleEpromUprChangeOnOrOff, s);
-
+    sendMessage(setReleEpromUprChangeOnOrOff, JSON.stringify(objTemp));
+    // } catch (e) {
+    //   console.log('ERROR  ' + e);
+    // }
   });
 });
 
 // Один діапазон температур або два
 releTempChangeSingle.forEach(function (e, i) {
   e.addEventListener('change', function () {
+    // try {
     let ii = Math.trunc(i / 2);
     // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
     // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
@@ -497,19 +528,32 @@ releTempChangeSingle.forEach(function (e, i) {
 
     if (e.value == '1') {
       // console.log('000');
-      objSensorEepromUpr.obj[ii].number &= ~(1 << 4);
+      objSensorEepromUpr.obj[ii] &= ~(1 << 4);
     } else if (e.value == '0') {
       // console.log('111');
-      objSensorEepromUpr.obj[ii].number |= 1 << 4;
+      objSensorEepromUpr.obj[ii] |= 1 << 4;
     }
-    s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-    console.log('setReleEpromUprOneOrTwoRangeTemp----' + s);
-    convertToBinary1(objSensorEepromUpr.obj[ii].number)
+    let objTemp = {
+      "number": ii,
+      "data": objSensorEepromUpr.obj[ii]
+    };
+    // s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
+    console.log('setReleEpromUprOneOrTwoRangeTemp----' + JSON.stringify(objTemp));
+    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
 
-    sendMessage(setReleEpromUprOneOrTwoRangeTemp, s);
-
+    sendMessage(setReleEpromUprOneOrTwoRangeTemp, JSON.stringify(objTemp));
+    // } catch (e) {
+    //   console.log('ERROR  ' + e);
+    // }
   });
 });
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
+// **************************************************************************************************************************************************
+
+
+
 // *************************************************************************
 function fun2() {
   const inputTempVkl = document.querySelectorAll('.rele-temp-vkl');
@@ -580,18 +624,33 @@ btnClear.forEach(function (e) {
 // -------------------------------
 btnSave.addEventListener('click', function () {
 
-  let s = '';
+  let s = { obj: [] };
   tableEepromAddress.forEach(function (e, i) {
     if (i > 0) {
-      s += 'na' + e.textContent.toLocaleUpperCase();
+      s.obj.push(e.textContent.toLocaleUpperCase());
     };
   });
-  console.log(s);
+  console.log(JSON.stringify(s));
 
-  sendMessage(outSaveDataSensorEeprom, s);
+  sendMessage(outSaveDataSensorEeprom, JSON.stringify(s));
 
 
-  s = '';
+
+
+
+  // let s = '';
+  // tableEepromAddress.forEach(function (e, i) {
+  //   if (i > 0) {
+  //     s += 'na' + e.textContent.toLocaleUpperCase();
+  //   };
+  // });
+  // console.log(s);
+
+  // sendMessage(outSaveDataSensorEeprom, s);
+  // s = '';
+
+
+
   tableEepromNameSensor.forEach(function (e, i) {
     if (i > 0) {
       s += '*&' + e.value;
@@ -683,7 +742,7 @@ function compareSensorAddressHtml() {
 // document.querySelectorAll('.datetime, .time').forEach(function (e) {
 
 
-document.querySelectorAll('.rele__item').forEach((parent) => {
+document.querySelectorAll('.rele__item').forEach((parent, num) => {
 
   parent.addEventListener('change', function (event) {
     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
@@ -702,23 +761,36 @@ document.querySelectorAll('.rele__item').forEach((parent) => {
 
   parent.addEventListener('click', function (event) {
     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
+    console.log(event.target);
     if (event.target.classList.contains('rele__seting-switch__input')) showSectionTimeAndSeting(event, parent, '.rele__seting-svg', '.rele__section-seting');
     if (event.target.classList.contains('rele__timer-seting-show__input')) showSectionTimeAndSeting(event, parent, '.rele__timer-seting-svg', '.rele-control-timer');
+    if (event.target.classList.contains('rele__control-manually-show')) showSectionTimeAndSeting(event, parent, '.input-control-manually-svg', '.rele__control-manually', num);
   });
 
 });
 
 
-function showSectionTimeAndSeting(event, parent, classLink, classShowSection) { //Покузує або скриває блок з настройками
+function showSectionTimeAndSeting(event, parent, classLink, classShowSection, num) { //Покузує або скриває блок з настройками
   event.preventDefault();
-  console.log("44444444444444444444")
   if (event.target.classList.contains('on')) {
     parent.querySelector(classLink).classList.remove(classLink.substring(1) + '-on');
     parent.querySelector(classShowSection).classList.remove('show-block');
+    if (event.target.classList.contains('rele__control-manually-show')) {
+      parent.querySelector('.rele__seting-sensor-timer').classList.remove('block__hidden'); //Добавляємо клас відкриваємо Select
+      s = num + 'x' + '0' + 'k';
+      console.log('s----' + s);
+      sendMessage(setReleEpromUprManual, s);
+    }
     event.target.classList.remove('on');
   } else {
     parent.querySelector(classLink).classList.add(classLink.substring(1) + '-on');
     parent.querySelector(classShowSection).classList.add('show-block');
+    if (event.target.classList.contains('rele__control-manually-show')) {
+      parent.querySelector('.rele__seting-sensor-timer').classList.add('block__hidden'); //Добавляємо клас відкриваємо Select
+      s = num + 'x' + '1' + 'k';
+      console.log('s----' + s);
+      sendMessage(setReleEpromUprManual, s);
+    }
     event.target.classList.add('on');
   }
 }
@@ -1167,7 +1239,6 @@ document.querySelectorAll('.time__btn ').forEach(function (e, i) {
       });
       console.log(_s);
 
-
       sendMessage(setReleDATATIME, _s);
 
     }
@@ -1219,57 +1290,7 @@ function messageDate(inter) {
 //*********************************************************************** */
 //show menu local storage
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // } // end fuction addEventListenerClick
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const releItemTitlePin = document.querySelectorAll('.rele__item-title-pin');
 releItemTitlePin[0].textContent = 'PIN 5'

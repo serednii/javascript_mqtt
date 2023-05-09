@@ -37,7 +37,7 @@ function onConnect() {
     // console.log('ALL');
 }
 
-function doFail(e) {}
+function doFail(e) { }
 // console.log(e);
 
 
@@ -86,12 +86,16 @@ function onMessageArrived(message) {
     if (message.destinationName === getEepromSensorData) {
         //Дані що знаходяться в EEPROM позиція, мак адрес, і температура сенсору
         objEeprom = JSON.parse(message.payloadString);
-        // console.log(objEeprom);
+        console.log('objEeprom');
+        console.log(objEeprom);
+
         for (let _k = 0; _k < objEeprom.obj.length; _k++) {
             if (showEepromFlag) {
                 tableEepromNumber[_k + 1].innerText = objEeprom.obj[_k].number;
                 tableEepromAddress[_k + 1].innerText = objEeprom.obj[_k].address.toLocaleUpperCase();
             }
+
+            tableEepromNameSensor[_k + 1].value = objEeprom.obj[_k].nameSensor;
             tableEepromTemp[_k + 1].innerText = objEeprom.obj[_k].temp.toFixed(1);
 
             if (objEeprom.obj[_k].address != '0000000000000000') {
@@ -106,11 +110,34 @@ function onMessageArrived(message) {
                 popapTemp[_k].closest('.popap-info__lamp-item').classList.add('shiden');
             }
 
-
         }
 
         downloadedDataEEprom = true;
         if (downloadedDataDevice && downloadedDataEEprom) compareSensorAddress();
+    }
+
+    //************************************************************************************************************** */
+
+    if (message.destinationName === getSensorName) {
+
+        try {
+            console.log('getSensorName');
+            console.log(message.payloadString);
+            objNameSensor = JSON.parse(message.payloadString);
+            //получаємо дані про стан кожного реле
+            tableEepromNameSensor.forEach(function (e, i) {
+
+                if (i > 0) {
+                    // e.value = objNameSensor.obj[i - 1].nameSensor;
+                }
+            });
+            // console.log(objNameSensor);
+
+        } catch (e) {
+            console.log('ERROR NAME SENSOR' + e);
+            sendMessage(setDefineDevice, 'setDefineDevice');
+            console.log('DEFAULT_DEVICE');
+        }
     }
 
     //************************************************************************************************************** */
@@ -140,8 +167,8 @@ function onMessageArrived(message) {
     if (message.destinationName === getReleEpromUpr) {
         //получаємо дані з памяті про датчики 
         objSensorEepromUpr = JSON.parse(message.payloadString);
-        // console.log('objSensorEepromUpr *****');
-        // console.log(objSensorEepromUpr);
+        console.log('objSensorEepromUpr *****');
+        console.log(objSensorEepromUpr);
 
         fun1();
     }
@@ -174,36 +201,14 @@ function onMessageArrived(message) {
         }
     }
 
-    //************************************************************************************************************** */
 
-    if (message.destinationName === getSensorName) {
-
-        try {
-            console.log('getSensorName');
-            console.log(message.payloadString);
-            //получаємо дані про стан кожного реле
-            objNameSensor = JSON.parse(message.payloadString);
-            tableEepromNameSensor.forEach(function (e, i) {
-
-                if (i > 0) {
-                    e.value = objNameSensor.obj[i - 1].nameSensor;
-                }
-            });
-            // console.log(objNameSensor);
-
-        } catch (e) {
-            console.log('ERROR NAME SENSOR' + e);
-            sendMessage(setDefineDevice, 'setDefineDevice');
-            console.log('DEFAULT_DEVICE');
-        }
-    }
 
     //************************************************************************************************************** */
 
     if (message.destinationName === getReleName) {
         try {
-            console.log('getReleName');
-            console.log(message.payloadString);
+            // console.log('getReleName');
+            // console.log(message.payloadString);
 
             //получаємо дані про стан кожного реле
             objNameRele = JSON.parse(message.payloadString);
@@ -235,18 +240,23 @@ function onMessageArrived(message) {
 
         //получаємо дані про стан кожного реле
         let objManualRele = JSON.parse(message.payloadString);
-        // console.log('message.payloadString   ////// getReleEpromUprManual');
-        // console.log(message.payloadString);
-        document.querySelectorAll('.input-control-manually__input').forEach(function (e, i) {
+        console.log('message.payloadString   ////// getReleEpromUprManual');
+        console.log(message.payloadString);
+        document.querySelectorAll('.input-control-manually-svg').forEach(function (e, i) {
             const parent = e.closest('.rele__item');
-
+            console.log("testttt")
             if (objManualRele.obj[i].namberRele == 1) {
-                e.checked = true;
-                parent.querySelector('.rele__control-manually').classList.add('block__show'); //Добавляємо клас відкриваємо Select
+                // e.checked = true;
+                parent.querySelector('.input-control-manually-svg').classList.add('on');
+                parent.querySelector('.rele__control-manually-show').classList.add('on');
+                parent.querySelector('.rele__control-manually').classList.add('show-block'); //Добавляємо клас відкриваємо Select
                 parent.querySelector('.rele__seting-sensor-timer').classList.add('block__hidden'); //Добавляємо клас відкриваємо Select
             } else if (objManualRele.obj[i].namberRele == 0) {
-                e.checked = false;
-                parent.querySelector('.rele__control-manually').classList.remove('block__show');
+                // e.checked = false;
+                parent.querySelector('.input-control-manually-svg').classList.remove('on');
+                parent.querySelector('.rele__control-manually-show').classList.remove('on');
+
+                parent.querySelector('.rele__control-manually').classList.remove('show-block');
                 parent.querySelector('.rele__seting-sensor-timer').classList.remove('block__hidden'); //Добавляємо клас відкриваємо Select
             }
         });
@@ -257,8 +267,11 @@ function onMessageArrived(message) {
 
     if (message.destinationName === getReleDATATIME) {
         //получаємо дані про таймери
+
         let tempObj = JSON.parse(message.payloadString);
-        // console.log(message.payloadString);
+        console.log(message.payloadString);
+        // console.log('ZETZET')/
+
         if (tempObj.NUMPACKAGE === 1) {
             obj_1 = Object.assign({}, tempObj);
         }
@@ -285,7 +298,6 @@ function onMessageArrived(message) {
             const timeInput = releItem[namberRele].querySelectorAll('.time');
             const dayWikend = releItem[namberRele].querySelectorAll('.day');
             // const parent =  releItem[namberRele];
-
 
             dateTimeInput.forEach(function (e) {
                 e.value = '';
