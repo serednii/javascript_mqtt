@@ -96,6 +96,8 @@ let objNameRele = {};
 let objManualRele = {};
 
 let arrayDatetime = [];
+
+
 for (let i = 0; i < 8; i++) {
   arrayDatetime.push({
     Datetime: [],
@@ -281,7 +283,7 @@ function fun1() {
         let numRele = 15; //номер реле в якому записаний термодатчик
         for (let d = 0; d < 8; d++) {
           //
-          z = objSensorEepromUpr.obj[d].number;
+          z = objSensorEepromUpr.obj[d];
           z &= ~240;
           if (z == numEepromSensor) {
             //Нaходимо в масиві для реле номер термодатчика
@@ -342,12 +344,15 @@ function fun1() {
 
 document.querySelectorAll('.rele__control-manually-on-off').forEach(function (e, i) {
   e.addEventListener('change', function () {
-    if (e.checked) s = i + 'x1k';
-    else s = i + 'x0k';
-    console.log('s----' + s);
-    sendMessage(setReleVklOtkl, s);
+    let obj;
+    if (e.checked) obj = { "number": i, "data": "1" };
+    else obj = { "number": i, "data": "0" };
+    console.log(obj);
+    sendMessage(setReleVklOtkl, JSON.stringify(obj));
   });
 });
+
+
 
 // document.querySelectorAll('.rele__control-manually_off').forEach(function (e, i) {
 //   e.addEventListener('click', function () {
@@ -376,12 +381,12 @@ document.querySelectorAll('select').forEach(function (e) {
     releItem.forEach(function (k, i) {
       if (k == e.closest('.rele__item')) {
         // опреділяєм в якому блоці ми знаходимося тобто номер реле
-        // console.log(i);
-        // console.log(e.querySelectorAll('option')[e.selectedIndex].value);
-        // objSensorEepromUpr.obj[i] = e.querySelectorAll('option')[e.selectedIndex].value ;
-        s = i + 'x' + e.querySelectorAll('option')[e.selectedIndex].value + 'k';
-        // console.log('s----' + s);
-        sendMessage(setReleEpromUpr, s);
+        console.log(i);
+        console.log(e.querySelectorAll('option')[e.selectedIndex].value);
+        objSensorEepromUpr.obj[i] = e.querySelectorAll('option')[e.selectedIndex].value;
+        let s = i + 'x' + e.querySelectorAll('option')[e.selectedIndex].value + 'k';
+        console.log('s----' + s);
+        sendMessage(setReleEpromUpr, JSON.stringify({ "number": i, "data": e.querySelectorAll('option')[e.selectedIndex].value }));
       }
     });
   });
@@ -397,21 +402,22 @@ document.querySelectorAll('select').forEach(function (e) {
 document.querySelectorAll('.input-control-manually__input').forEach(function (e, num) {
   e.addEventListener('click', function (a) {
     const parent = e.closest('.rele__item');
+    let obj;
     if (a.target.checked) {
       parent.querySelector('.rele__control-manually').classList.add('block__show'); //Добавляємо клас відкриваємо Select
       parent.querySelector('.rele__seting-sensor-timer').classList.add('block__hidden'); //Добавляємо клас відкриваємо Select
       // console.log('num  ' + num);
-      s = num + 'x' + '1' + 'k';
-      console.log('s----' + s);
-      sendMessage(setReleEpromUprManual, s);
+      obj = { "number": num, "data": "1" }
     } else {
       parent.querySelector('.rele__control-manually').classList.remove('block__show');
       parent.querySelector('.rele__seting-sensor-timer').classList.remove('block__hidden'); //Добавляємо клас відкриваємо Select
       // console.log(e.name);
-      s = num + 'x' + '0' + 'k';
-      console.log('s----' + s);
-      sendMessage(setReleEpromUprManual, s);
+      obj = { "number": num, "data": "0" }
     }
+
+    console.log(obj);
+    sendMessage(setReleEpromUprManual, JSON.stringify(obj));
+
   });
 });
 
@@ -428,19 +434,25 @@ document.querySelectorAll('.rele-temp-vkl, .rele-temp-otkl').forEach(function (e
 document.querySelectorAll('.rele-temp-btn').forEach(function (e, i) {
   //
   e.addEventListener('click', function () {
-    s = i + 'v' + e.closest('.rele__item').querySelector('.rele-temp-vkl').value + 'o' + e.closest('.rele-temp-change').querySelector('.rele-temp-otkl').value + 'k';
-
-    sendMessage(outSaveDataSensorTemp, s);
-    console.log(s);
+    // let s = i + 'v' + e.closest('.rele__item').querySelector('.rele-temp-vkl').value + 'o' + e.closest('.rele-temp-change').querySelector('.rele-temp-otkl').value + 'k';
+    const obj = {
+      "number": i,
+      "tempVkl": e.closest('.rele__item').querySelector('.rele-temp-vkl').value,
+      "tempOtkl": e.closest('.rele-temp-change').querySelector('.rele-temp-otkl').value
+    }
+    sendMessage(outSaveDataSensorTemp, JSON.stringify(obj));
+    console.log(obj);
   });
 });
 
 document.querySelectorAll('.rele__name-btn').forEach(function (e, i) {
   e.addEventListener('click', function () {
-    s = i + '*#*' + e.closest('.rele__item').querySelector('.rele__name-input').value + '*&*';
-
-    sendMessage(outSaveReleName, s);
-    console.log(s);
+    const obj = {
+      "number": i,
+      "name": e.closest('.rele__item').querySelector('.rele__name-input').value
+    }
+    sendMessage(outSaveReleName, JSON.stringify(obj));
+    console.log(obj);
   });
 });
 
@@ -458,31 +470,13 @@ document.querySelectorAll('.rele__name-btn').forEach(function (e, i) {
 inputControlError.forEach(function (e, i) {
 
   e.addEventListener('change', function () {
-    // try {
-    let ii = Math.trunc(i / 2);
-    // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
-    // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
-    // let temp = objSensorEepromUpr.obj[ii].number;
-
-    if (e.value == '0') {
-      // console.log('000');
-      objSensorEepromUpr.obj[ii] &= ~(1 << 6);
-    } else if (e.value == '1') {
-      // console.log('111');
-      objSensorEepromUpr.obj[ii] |= 1 << 6;
+    try {
+      const objTemp = changeBits(e, Math.trunc(i / 2), 6);
+      console.log('setReleEpromUprErorrReleVklVukl----' + objTemp);
+      sendMessage(setReleEpromUprErorrReleVklVukl, objTemp);
+    } catch (ee) {
+      console.log('ERROR  ' + ee);
     }
-    let objTemp = {
-      "number": ii,
-      "data": objSensorEepromUpr.obj[ii]
-    };
-    // s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-    console.log('setReleEpromUprErorrReleVklVukl----' + JSON.stringify(objTemp));
-    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
-
-    sendMessage(setReleEpromUprErorrReleVklVukl, JSON.stringify(objTemp));
-    // } catch (e) {
-    //   console.log('ERROR  ' + e);
-    // }
   });
 });
 
@@ -494,23 +488,25 @@ releTempChangeRadio.forEach(function (e, i) {
     // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
     // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
     //  let temp = objSensorEepromUpr.obj[ii].number;
+    // if (objSensorEepromUpr.obj.length > 0) {
+    //   if (e.value == '0') {
+    //     // console.log('000');
+    //     objSensorEepromUpr.obj[ii] &= ~(1 << 5);
+    //   } else if (e.value == '1') {
+    //     // console.log('111');
+    //     objSensorEepromUpr.obj[ii] |= 1 << 5;
+    //   }
+    //   let objTemp = {
+    //     "number": ii,
+    //     "data": objSensorEepromUpr.obj[ii]
+    //   };
+    // }
+    const objTemp = changeBits(e, ii, 5);
 
-    if (e.value == '0') {
-      // console.log('000');
-      objSensorEepromUpr.obj[ii] &= ~(1 << 5);
-    } else if (e.value == '1') {
-      // console.log('111');
-      objSensorEepromUpr.obj[ii] |= 1 << 5;
-    }
-    let objTemp = {
-      "number": ii,
-      "data": objSensorEepromUpr.obj[ii]
-    };
-    // let s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-    console.log('setReleEpromUprOneOrTwoRangeTemp----' + JSON.stringify(objTemp));
-    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
+    console.log('setReleEpromUprOneOrTwoRangeTemp----' + objTemp);
 
-    sendMessage(setReleEpromUprChangeOnOrOff, JSON.stringify(objTemp));
+    sendMessage(setReleEpromUprChangeOnOrOff, objTemp);
+
     // } catch (e) {
     //   console.log('ERROR  ' + e);
     // }
@@ -525,23 +521,27 @@ releTempChangeSingle.forEach(function (e, i) {
     // console.log('i = ' + i + '  ' + 'e  = ' + e.value);
     // console.log('ii = ' + ii + '  ' + 'e  = ' + e.value);
     // let temp = objSensorEepromUpr.obj[ii].number;
+    // if (objSensorEepromUpr.obj.length > 0) {
+    //   if (e.value == '1') {
+    //     // console.log('000');
+    //     objSensorEepromUpr.obj[ii] &= ~(1 << 4);
+    //   } else if (e.value == '0') {
+    //     // console.log('111');
+    //     objSensorEepromUpr.obj[ii] |= 1 << 4;
+    //   }
+    // }
+    //   let objTemp = {
+    //     "number": ii,
+    //     "data": objSensorEepromUpr.obj[ii]
+    //   };
 
-    if (e.value == '1') {
-      // console.log('000');
-      objSensorEepromUpr.obj[ii] &= ~(1 << 4);
-    } else if (e.value == '0') {
-      // console.log('111');
-      objSensorEepromUpr.obj[ii] |= 1 << 4;
-    }
-    let objTemp = {
-      "number": ii,
-      "data": objSensorEepromUpr.obj[ii]
-    };
-    // s = ii + 'x' + objSensorEepromUpr.obj[ii].number + 'k';
-    console.log('setReleEpromUprOneOrTwoRangeTemp----' + JSON.stringify(objTemp));
-    // convertToBinary1(objSensorEepromUpr.obj[ii].number)
+    const objTemp = changeBits(e, ii, 4);
 
-    sendMessage(setReleEpromUprOneOrTwoRangeTemp, JSON.stringify(objTemp));
+    console.log('setReleEpromUprOneOrTwoRangeTemp----' + objTemp);
+
+
+    sendMessage(setReleEpromUprOneOrTwoRangeTemp, objTemp);
+
     // } catch (e) {
     //   console.log('ERROR  ' + e);
     // }
@@ -552,7 +552,20 @@ releTempChangeSingle.forEach(function (e, i) {
 // **************************************************************************************************************************************************
 // **************************************************************************************************************************************************
 
-
+function changeBits(e, numRele, numberBit) {
+  if (objSensorEepromUpr.obj.length > 0) {
+    if (e.value == '0') {
+      objSensorEepromUpr.obj[numRele] &= ~(1 << numberBit);
+    } else if (e.value == '1') {
+      objSensorEepromUpr.obj[numRele] |= 1 << numberBit;
+    }
+    // let objTemp = {
+    //   "number": ii,
+    //   "data": objSensorEepromUpr.obj[numRele]
+    // };
+    return JSON.stringify({ "number": numRele, "data": objSensorEepromUpr.obj[numRele] });
+  }
+}
 
 // *************************************************************************
 function fun2() {
@@ -624,42 +637,46 @@ btnClear.forEach(function (e) {
 // -------------------------------
 btnSave.addEventListener('click', function () {
 
-  let s = { obj: [] };
+  let obj = {
+    obj: {
+      "nameSensor": [],
+      "numberSensor": []
+    }
+  };
   tableEepromAddress.forEach(function (e, i) {
     if (i > 0) {
-      s.obj.push(e.textContent.toLocaleUpperCase());
+      obj.obj.numberSensor.push(e.textContent.toLocaleUpperCase());
+      obj.obj.nameSensor.push(tableEepromNameSensor[i].value);
     };
   });
-  console.log(JSON.stringify(s));
-
-  sendMessage(outSaveDataSensorEeprom, JSON.stringify(s));
-
+  console.log((obj));
+  sendMessage(outSaveDataSensorEeprom, JSON.stringify(obj));
 
 
-
-
-  // let s = '';
-  // tableEepromAddress.forEach(function (e, i) {
+  // tableEepromNameSensor.forEach(function (e, i) {
   //   if (i > 0) {
-  //     s += 'na' + e.textContent.toLocaleUpperCase();
+  //     s += '*&' + e.value;
   //   };
   // });
   // console.log(s);
-
-  // sendMessage(outSaveDataSensorEeprom, s);
-  // s = '';
-
-
-
-  tableEepromNameSensor.forEach(function (e, i) {
-    if (i > 0) {
-      s += '*&' + e.value;
-    };
-  });
-  console.log(s);
-
-  sendMessage(outSaveNameSensorEeprom, s);
+  // sendMessage(outSaveNameSensorEeprom, s);
 });
+
+
+// let s = '';
+// tableEepromAddress.forEach(function (e, i) {
+//   if (i > 0) {
+//     s += 'na' + e.textContent.toLocaleUpperCase();
+//   };
+// });
+// console.log(s);
+
+// sendMessage(outSaveDataSensorEeprom, s);
+// s = '';
+
+
+
+
 
 
 //*********************************************************************** */
@@ -735,9 +752,6 @@ function compareSensorAddressHtml() {
 // ************************************************************************************************************************************************************************************************************************************************************************************************************************
 // ************************************************************************************************************************************************************************************************************************************************************************************************************************
 
-
-
-
 // ********************************************************************************************************************************************************************
 // document.querySelectorAll('.datetime, .time').forEach(function (e) {
 
@@ -770,16 +784,18 @@ document.querySelectorAll('.rele__item').forEach((parent, num) => {
 });
 
 
+
 function showSectionTimeAndSeting(event, parent, classLink, classShowSection, num) { //Покузує або скриває блок з настройками
   event.preventDefault();
   if (event.target.classList.contains('on')) {
     parent.querySelector(classLink).classList.remove(classLink.substring(1) + '-on');
     parent.querySelector(classShowSection).classList.remove('show-block');
+    let obj;
     if (event.target.classList.contains('rele__control-manually-show')) {
       parent.querySelector('.rele__seting-sensor-timer').classList.remove('block__hidden'); //Добавляємо клас відкриваємо Select
-      s = num + 'x' + '0' + 'k';
-      console.log('s----' + s);
-      sendMessage(setReleEpromUprManual, s);
+      obj = { "number": num, "data": "0" }
+      console.log(obj);
+      sendMessage(setReleEpromUprManual, JSON.stringify(obj));
     }
     event.target.classList.remove('on');
   } else {
@@ -787,9 +803,9 @@ function showSectionTimeAndSeting(event, parent, classLink, classShowSection, nu
     parent.querySelector(classShowSection).classList.add('show-block');
     if (event.target.classList.contains('rele__control-manually-show')) {
       parent.querySelector('.rele__seting-sensor-timer').classList.add('block__hidden'); //Добавляємо клас відкриваємо Select
-      s = num + 'x' + '1' + 'k';
-      console.log('s----' + s);
-      sendMessage(setReleEpromUprManual, s);
+      obj = { "number": num, "data": "1" }
+      console.log(obj);
+      sendMessage(setReleEpromUprManual, JSON.stringify(obj));
     }
     event.target.classList.add('on');
   }
@@ -819,7 +835,9 @@ function showSectionTimeAndSeting(event, parent, classLink, classShowSection, nu
 //     event.target.classList.add('on');
 //   }
 // }
+
 // ********************************************************************************************************************************************************************
+
 function showTimerIcons(parent, datetime, time) {
   const timerIcons = parent.querySelectorAll('.rele__timer-seting-icon');
   for (let d = 0, t = 0; d < 10; d += 2, t += 10) {
@@ -1159,6 +1177,7 @@ function formatDataAndTimeFull(date) {
 // 2022-06-12T00:00 format input date set
 
 
+
 document.querySelectorAll('.time__btn ').forEach(function (e, i) {
 
   e.addEventListener('click', function (ee) {
@@ -1196,17 +1215,28 @@ document.querySelectorAll('.time__btn ').forEach(function (e, i) {
       // console.log(delayWhenTurned[i].value);
 
       const dayElement = parent.querySelectorAll('.day');
-      let _s = 'RELE' + i + '-' + delayWhenTurned[i].value + '-';
-
+      let _s = 'rele' + i + '-' + delayWhenTurned[i].value + '-';
+      const objReleData = {};
+      objReleData.RELE = i;
+      objReleData.delayWhenTurned = delayWhenTurned[i].value;
+      let arr = [];
       for (nn = 0; nn < 10; nn++) {
-        // console.log('dayElement  ' + arrayDatetime[i].DatetimeReal[nn]);
 
         if (arrayDatetime[i].DatetimeReal[nn] != 'Invalid Date') {
-          // console.log('dayElement  ' + arrayDatetime[i].DatetimeReal[nn]);
           let dateInput = new Date(arrayDatetime[i].DatetimeReal[nn]).getTime();
           dateInput = dateInput / 1000;
-          console.log("ZZZZZZZZZZZZ");
           console.log(arrayDatetime[i].DatetimeReal[nn]);
+
+          arr.push({
+            'DM': objReleData.dataTime = [i].dataMiis = dateInput,
+            'Y': arrayDatetime[i].DatetimeReal[nn].getFullYear(),
+            'M': arrayDatetime[i].DatetimeReal[nn].getMonth(),
+            'D': arrayDatetime[i].DatetimeReal[nn].getDate(),
+            'H': arrayDatetime[i].DatetimeReal[nn].getHours(),
+            'MI': arrayDatetime[i].DatetimeReal[nn].getMinutes(),
+            'T': arrayDatetime[i].DatetimeReal[nn].getDay()
+          })
+
           _s += dateInput + '-'; //Рік  v minute
           _s += arrayDatetime[i].DatetimeReal[nn].getFullYear() + '-'; //Рік
           _s += arrayDatetime[i].DatetimeReal[nn].getMonth() + 1 + '-'; //Місяць
@@ -1215,35 +1245,149 @@ document.querySelectorAll('.time__btn ').forEach(function (e, i) {
           _s += arrayDatetime[i].DatetimeReal[nn].getMinutes() + '-'; //Хвилина
           _s += arrayDatetime[i].DatetimeReal[nn].getDay() + '-'; //День тижня 0-6
         } else {
-          _s += '4294967295-65535-99-99-99-99-99-'; //День тижня 0-6
+          // _s += '4294967295-65535-99-99-99-99-99-'; //День тижня 0-6
+          arr.push({ 'N': 'N' });
         }
       }
+      objReleData.dataTime = arr;
 
+
+
+      arr = [];
       for (nn = 0; nn < 50; nn++) {
-        // console.log( "HHHHHHHHH  " ); 
 
         console.log(arrayDatetime[i].timeReal[nn]);
 
         if (arrayDatetime[i].timeReal[nn] != undefined && arrayDatetime[i].timeReal[nn] != '') {
+          arr.push({
+            'H': arrayDatetime[i].timeReal[nn].getHours(),
+            'MI': arrayDatetime[i].timeReal[nn].getMinutes()
+          })
           _s += arrayDatetime[i].timeReal[nn].getHours() + "-" + arrayDatetime[i].timeReal[nn].getMinutes() + '-';
-        } else _s += '99-99-';
+        } else {
+          arr.push({
+            'N': 'N'
+          })
+        };
       }
 
+      objReleData.Time = arr;
+      arr = [];
       // s += 'DAY---';
       dayElement.forEach(function (e) {
         if (e.checked) {
-          _s += '1-';
+          arr.push(1)
         } else {
-          _s += '0-';
+          arr.push(0)
         }
       });
-      console.log(_s);
+      objReleData.today = arr;
 
-      sendMessage(setReleDATATIME, _s);
+      console.log(JSON.stringify(objReleData));
+      console.log(objReleData)
+      sendMessage(setReleDATATIME, JSON.stringify(objReleData));
 
     }
   });
 });
+
+
+
+
+
+
+
+
+// document.querySelectorAll('.time__btn ').forEach(function (e, i) {
+
+//   e.addEventListener('click', function (ee) {
+//     const parent = e.closest('.rele__item');
+//     // let numberReleClick = parent.getAttribute('data-rele');
+//     // console.log(i);
+//     const error_class = parent.querySelectorAll('.date-red__color, .time-red__color, .date-blue__backround, .time-blue__backround,  .time-red__backround');
+
+//     // console.log('length error  ' + error_class.length);
+
+//     if (error_class.length > 0) {
+
+//       //Якщо є класи з помилками
+
+//       const popapError = document.querySelector('.popap_error');
+//       popapError.classList.add('popap_error-show');
+//       let counter = 0;
+
+//       let timerId = setInterval(function () {
+//         error_class.forEach(function (e) {
+//           if (counter % 2 == 0) e.classList.add('blink__eror-red');
+//           if (counter % 2 != 0) e.classList.remove('blink__eror-red');
+//         });
+
+//         counter++;
+//         // console.log('counter  ' + counter);
+//         if (counter > 9) {
+//           clearTimeout(timerId);
+//           popapError.classList.remove('popap_error-show');
+//         }
+//       }, 300);
+//     } else {
+//       //Якщо нема класів з помилками то відправляємо повідомлення
+//       //Відправляємо дані
+//       // console.log(delayWhenTurned[i].value);
+
+//       const dayElement = parent.querySelectorAll('.day');
+//       let _s = 'rele' + i + '-' + delayWhenTurned[i].value + '-';
+
+//       for (nn = 0; nn < 10; nn++) {
+//         // console.log('dayElement  ' + arrayDatetime[i].DatetimeReal[nn]);
+
+//         if (arrayDatetime[i].DatetimeReal[nn] != 'Invalid Date') {
+//           // console.log('dayElement  ' + arrayDatetime[i].DatetimeReal[nn]);
+//           let dateInput = new Date(arrayDatetime[i].DatetimeReal[nn]).getTime();
+//           dateInput = dateInput / 1000;
+//           console.log("ZZZZZZZZZZZZ");
+//           console.log(arrayDatetime[i].DatetimeReal[nn]);
+//           _s += dateInput + '-'; //Рік  v minute
+//           _s += arrayDatetime[i].DatetimeReal[nn].getFullYear() + '-'; //Рік
+//           _s += arrayDatetime[i].DatetimeReal[nn].getMonth() + 1 + '-'; //Місяць
+//           _s += arrayDatetime[i].DatetimeReal[nn].getDate() + '-'; //день 1-31
+//           _s += arrayDatetime[i].DatetimeReal[nn].getHours() + '-'; //Година
+//           _s += arrayDatetime[i].DatetimeReal[nn].getMinutes() + '-'; //Хвилина
+//           _s += arrayDatetime[i].DatetimeReal[nn].getDay() + '-'; //День тижня 0-6
+//         } else {
+//           _s += '4294967295-65535-99-99-99-99-99-'; //День тижня 0-6
+//         }
+//       }
+
+//       for (nn = 0; nn < 50; nn++) {
+//         // console.log( "HHHHHHHHH  " ); 
+
+//         console.log(arrayDatetime[i].timeReal[nn]);
+
+//         if (arrayDatetime[i].timeReal[nn] != undefined && arrayDatetime[i].timeReal[nn] != '') {
+//           _s += arrayDatetime[i].timeReal[nn].getHours() + "-" + arrayDatetime[i].timeReal[nn].getMinutes() + '-';
+//         } else _s += '99-99-';
+//       }
+
+//       // s += 'DAY---';
+//       dayElement.forEach(function (e) {
+//         if (e.checked) {
+//           _s += '1-';
+//         } else {
+//           _s += '0-';
+//         }
+//       });
+//       console.log(_s);
+
+//       sendMessage(setReleDATATIME, _s);
+
+//     }
+//   });
+// });
+
+
+
+
+
 
 document.querySelectorAll('.time__btn-clear').forEach(function (e, i) {
   e.addEventListener('click', function () {
@@ -1254,36 +1398,44 @@ document.querySelectorAll('.time__btn-clear').forEach(function (e, i) {
   });
 });
 
-function messageDate(inter) {
-  s = 'RELE' + inter + '-65535-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-4294967295-65535-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-99-99-99-99-99-99-99-99-99-99-\
-1-1-1-1-1-1-1-\
-1-1-1-1-1-1-1-\
-1-1-1-1-1-1-1-\
-1-1-1-1-1-1-1-\
-1-1-1-1-1-1-1-';
-  console.log(s);
+// function messageDate(numberRele) {
+//   s = 'RELE' + numberRele + '-65535-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 4294967295-65535-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 99-99-99-99-99-99-99-99-99-99-\
+// 1-1-1-1-1-1-1-\
+// 1-1-1-1-1-1-1-\
+// 1-1-1-1-1-1-1-\
+// 1-1-1-1-1-1-1-\
+// 1-1-1-1-1-1-1-';
+//   console.log(s);
 
-  sendMessage(setReleDATATIME, s);
+//   sendMessage(setReleDATATIME, s);
+
+// }
+
+function messageDate(numberRele) {
+
+  console.log(JSON.stringify({ "rele": numberRele, "default": "default" }));
+
+  sendMessage(setReleDATATIME, JSON.stringify({ "rele": numberRele, "default": "default" }));
 
 }
 

@@ -19,6 +19,7 @@ function onConnect() {
     client.subscribe(getReleName);
     client.subscribe(getReleEpromUprManual);
     client.subscribe(getReleDATATIME);
+    client.subscribe(getReleDATATIMEAll);
     client.subscribe(CONNECT_SSID);
     client.subscribe(LOCAL_IP);
     client.subscribe(getanaloInputA0);
@@ -56,9 +57,9 @@ function sendMessage(topic, message) {
     // console.log('KKKKKKKKKKKKKKKK');
 }
 // *************************************************************************************************************************
-let obj_1 = void 0;
-let obj_2 = void 0;
-let obj_3 = void 0;
+let obj_1 = {};
+let obj_2 = {};
+let obj_3 = {};
 
 function onMessageArrived(message) {
     // called when a message arrives
@@ -187,17 +188,17 @@ function onMessageArrived(message) {
 
     if (message.destinationName === stanRele) {
         //получаємо дані про стан кожного реле включене або відключене 
-        let stanReleTemp = parseInt(message.payloadString);
+        let stanReleTemp = JSON.parse(message.payloadString);
+        console.log(stanReleTemp);
+
         const releOnOff = document.querySelectorAll('.rele__control-manually-on-off');
-        for (n = 0; n < 8; n++) {
-            //Засвічуємо або гасимо лампочки
-            if (stanReleTemp & 1 << n) {
-                releOnOff[n].checked = false;
-                popapInfoTempItem[n].classList.remove('on')
-            } else {
-                releOnOff[n].checked = true;
-                popapInfoTempItem[n].classList.add('on');
-            }
+        try {
+            stanReleTemp.data.forEach((e, i) => {
+                releOnOff[i].checked = e;
+                e ? popapInfoTempItem[i].classList.add('on') : popapInfoTempItem[i].classList.remove('on')
+            });
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -210,19 +211,17 @@ function onMessageArrived(message) {
             // console.log('getReleName');
             // console.log(message.payloadString);
 
-            //получаємо дані про стан кожного реле
+            // получаємо імя кожного реле
             objNameRele = JSON.parse(message.payloadString);
-
             const releItemTitleName = document.querySelectorAll('.rele__item-title-name');
             releItemTitleName.forEach((e, i) => {
-                e.textContent = objNameRele.obj[i].nameRele;
-
+                e.textContent = objNameRele.obj[i];
             });
 
             releNameInput.forEach(function (e, i) {
-                e.value = objNameRele.obj[i].nameRele;
-                popapInfoTempItem[i].textContent = objNameRele.obj[i].nameRele;
-                releItemTitleName[i].textContent = objNameRele.obj[i].nameRele;
+                e.value = objNameRele.obj[i];
+                popapInfoTempItem[i].textContent = objNameRele.obj[i];
+                releItemTitleName[i].textContent = objNameRele.obj[i];
             });
             // console.log('objNameRele');
 
@@ -234,10 +233,9 @@ function onMessageArrived(message) {
 
     }
     //" "
+
     //************************************************************************************************************** */
-
     if (message.destinationName === getReleEpromUprManual) {
-
         //получаємо дані про стан кожного реле
         let objManualRele = JSON.parse(message.payloadString);
         console.log('message.payloadString   ////// getReleEpromUprManual');
@@ -245,59 +243,30 @@ function onMessageArrived(message) {
         document.querySelectorAll('.input-control-manually-svg').forEach(function (e, i) {
             const parent = e.closest('.rele__item');
             console.log("testttt")
-            if (objManualRele.obj[i].namberRele == 1) {
+            if (objManualRele.obj[i] == 1) {
                 // e.checked = true;
                 parent.querySelector('.input-control-manually-svg').classList.add('on');
                 parent.querySelector('.rele__control-manually-show').classList.add('on');
                 parent.querySelector('.rele__control-manually').classList.add('show-block'); //Добавляємо клас відкриваємо Select
                 parent.querySelector('.rele__seting-sensor-timer').classList.add('block__hidden'); //Добавляємо клас відкриваємо Select
-            } else if (objManualRele.obj[i].namberRele == 0) {
+            } else if (objManualRele.obj[i] == 0) {
                 // e.checked = false;
                 parent.querySelector('.input-control-manually-svg').classList.remove('on');
                 parent.querySelector('.rele__control-manually-show').classList.remove('on');
-
                 parent.querySelector('.rele__control-manually').classList.remove('show-block');
                 parent.querySelector('.rele__seting-sensor-timer').classList.remove('block__hidden'); //Добавляємо клас відкриваємо Select
             }
         });
-
     }
-
     //************************************************************************************************************** */
+    if (message.destinationName === getReleDATATIMEAll) {
+        const dataTimeRele = JSON.parse(message.payloadString);
+        // console.log(dataTimeRele);
 
-    if (message.destinationName === getReleDATATIME) {
-        //получаємо дані про таймери
-
-        let tempObj = JSON.parse(message.payloadString);
-        console.log(message.payloadString);
-        // console.log('ZETZET')/
-
-        if (tempObj.NUMPACKAGE === 1) {
-            obj_1 = Object.assign({}, tempObj);
-        }
-
-        if (tempObj.NUMPACKAGE === 2) {
-            obj_2 = Object.assign({}, tempObj);
-            // console.log('obj_2');
-            // console.log(obj_2);
-        }
-
-        if (tempObj.NUMPACKAGE === 3) {
-            obj_2.TIME = obj_2.TIME.concat(tempObj.TIME);
-            //  console.log('obj_2');
-            //  console.log(obj_2);
-        }
-
-        if (tempObj.NUMPACKAGE === 4) {
-            obj_3 = Object.assign({}, tempObj);
-            // obj_3 = JSON.parse(message.payloadString);
-            objManualRele = Object.assign(obj_1, obj_2, obj_3);
-            // console.log(objManualRele);
-            let namberRele = parseInt(objManualRele.NUM);
+        for (let namberRele = 0; namberRele < 8; namberRele++) {
             const dateTimeInput = releItem[namberRele].querySelectorAll('.datetime');
             const timeInput = releItem[namberRele].querySelectorAll('.time');
             const dayWikend = releItem[namberRele].querySelectorAll('.day');
-            // const parent =  releItem[namberRele];
 
             dateTimeInput.forEach(function (e) {
                 e.value = '';
@@ -308,19 +277,132 @@ function onMessageArrived(message) {
             });
 
             dayWikend.forEach(function (e) {
-                e.checked = true; //ttt
+                e.checked = true;
             });
 
-            let delaySecondStart = parseInt(objManualRele.DELAYSECONDSTART);
+            for (i = 0; i < 9; i += 2) {
+                let ii = i + (namberRele * 10);
+                // console.log(ii)
+                if (dataTimeRele.DATATIME[ii] != '65535-99-99T99:99' && dataTimeRele.DATATIME[ii + 1] != '65535-99-99T99:99') {
+                    console.log(dataTimeRele.DATATIME[ii]);
+                    console.log(dataTimeRele.DATATIME[ii + 1]);
+                    dateTimeInput[i].value = dataTimeRele.DATATIME[ii];
+                    dateTimeInput[i + 1].value = dataTimeRele.DATATIME[ii + 1];
 
-            if (delaySecondStart < 36000) releControlTimer[namberRele].value = delaySecondStart;
-            else releControlTimer[namberRele].value = '0';
+                    arrayDatetime[namberRele].Datetime[i] = new Date(dataTimeRele.DATATIME[ii]).getTime();
+                    arrayDatetime[namberRele].DatetimeReal[i] = new Date(dataTimeRele.DATATIME[ii]);
+                    arrayDatetime[namberRele].Datetime[i + 1] = new Date(dataTimeRele.DATATIME[ii + 1]).getTime();
+                    arrayDatetime[namberRele].DatetimeReal[i + 1] = new Date(dataTimeRele.DATATIME[ii + 1]);
+                }
+            }
+            //*****************************
+            for (i = 0; i < 49; i += 2) {
+                let ii = i + (namberRele * 50);
+                // console.log(ii)
+                if (dataTimeRele.TIME[ii] != '99:99' && dataTimeRele.TIME[ii + 1] != '99:99') {
+                    // console.log(objManualRele.TIME[i]); 
+                    // console.log( objManualRele.TIME[i+1]);
+                    timeInput[i].value = dataTimeRele.TIME[ii];
+                    timeInput[i + 1].value = dataTimeRele.TIME[ii + 1];
+                    arrayDatetime[namberRele].time[i] = new Date(dataTimeRele.DATATIME[ii]);
+                    arrayDatetime[namberRele].timeReal[i + 1] = new Date(dataTimeRele.DATATIME[ii + 1]);
+                }
+            }
 
-            // dateTimeInput[0].value = "2022-05-02T12:55";
+            for (i = 0; i < 35; i++) {
+                let ii = i + (namberRele * 35);
+                if (dataTimeRele.DEY[i] == 1) {
+                    dayWikend[i].checked = true;
+                    dayWikend[i].previousElementSibling.classList.add('checked');
+                }
+                if (dataTimeRele.DEY[i] == 0) {
+                    dayWikend[i].checked = false;
+                    dayWikend[i].previousElementSibling.classList.remove('checked');
+                }
+            }
+
+        }
+
+        document.querySelectorAll('.rele__item').forEach((parent) => {
+            const datetime = parent.querySelectorAll('.datetime');
+            const time = parent.querySelectorAll('.time');
+            // console.log(parent)
+            // console.log(datetime)
+            // console.log(time)
+            // switchSeting( parent);
+            // chekChecedDay(event);
+            chekDate(parent, datetime, time);
+            chekTime(parent, datetime, time);
+            showTimerIcons(parent, datetime, time); //Добавляє іконки таймера
+        });
+    }
+
+
+    //************************************************************************************************************** */
+    if (message.destinationName === getReleDATATIME) {
+        //получаємо дані про таймери
+
+        const objManualRele = JSON.parse(message.payloadString);
+        console.log('UUUUUUUUUUUUUUUUUUUUUUUUUU')
+        console.log(message.payloadString);
+        console.log(objManualRele);
+        // if (tempObj.NUMPACKAGE === 1) {
+        //     obj_1 = Object.assign({}, tempObj);
+        //     console.log(obj_1);
+        // }
+
+        // if (tempObj.NUMPACKAGE === 2) {
+        //     obj_2 = Object.assign({}, tempObj);
+        //     // console.log('obj_2');
+        // }
+
+        // if (tempObj.NUMPACKAGE === 3) {
+        //     obj_2.TIME = obj_2.TIME.concat(tempObj.TIME);
+        //     console.log(obj_2);
+        // }
+
+
+        // obj_3 = Object.assign({}, tempObj);
+        // console.log(obj_3);
+
+        // objManualRele = Object.assign(obj_1, obj_2, obj_3);
+        // console.log(objManualRele);
+        let namberRele = objManualRele.NUM;
+        console.log("objManualRele")
+        console.log(namberRele)
+        console.log(typeof namberRele)
+
+        const dateTimeInput = releItem[namberRele].querySelectorAll('.datetime');
+        const timeInput = releItem[namberRele].querySelectorAll('.time');
+        const dayWikend = releItem[namberRele].querySelectorAll('.day');
+        // const parent =  releItem[namberRele];
+
+        dateTimeInput.forEach(function (e) {
+            e.value = '';
+        });
+
+        timeInput.forEach(function (e) {
+            e.value = '';
+        });
+
+        dayWikend.forEach(function (e) {
+            e.checked = true;
+        });
+
+        let delaySecondStart = parseInt(objManualRele.DELAYSECONDSTART);
+
+        if (delaySecondStart < 36000) releControlTimer[namberRele].value = delaySecondStart;
+        else releControlTimer[namberRele].value = '0';
+
+        // dateTimeInput[0].value = "2022-05-02T12:55";
+
+        // console.log(objManualRele.DATATIME)
+        if (objManualRele.DATATIME)
             for (i = 0; i < 9; i += 2) {
                 if (objManualRele.DATATIME[i] != '65535-99-99T99:99' && objManualRele.DATATIME[i + 1] != '65535-99-99T99:99') {
                     // console.log(objManualRele.DATATIME[i]);
                     // console.log(objManualRele.DATATIME[i + 1]);
+                    console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
                     dateTimeInput[i].value = objManualRele.DATATIME[i];
                     dateTimeInput[i + 1].value = objManualRele.DATATIME[i + 1];
                     arrayDatetime[namberRele].Datetime[i] = new Date(objManualRele.DATATIME[i]).getTime();
@@ -330,11 +412,12 @@ function onMessageArrived(message) {
                 }
             }
 
+        // console.log(objManualRele.TIME)
+        if (objManualRele.TIME)
             for (i = 0; i < 49; i += 2) {
                 if (objManualRele.TIME[i] != '99:99' && objManualRele.TIME[i + 1] != '99:99') {
                     // console.log(objManualRele.TIME[i]); 
                     // console.log( objManualRele.TIME[i+1]);
-
                     timeInput[i].value = objManualRele.TIME[i];
                     timeInput[i + 1].value = objManualRele.TIME[i + 1];
                     arrayDatetime[namberRele].time[i] = new Date(objManualRele.DATATIME[i]);
@@ -343,13 +426,13 @@ function onMessageArrived(message) {
             }
 
 
-            // if(eve.target.checked){
-            //   eve.target.previousElementSibling.classList.add('checked');
-            // }else{
-            //   eve.target.previousElementSibling.classList.remove('checked');
-            // }
-
-
+        // if (eve.target.checked) {
+        //     eve.target.previousElementSibling.classList.add('checked');
+        // } else {
+        //     eve.target.previousElementSibling.classList.remove('checked');
+        // }
+        // console.log(objManualRele.DEY)
+        if (objManualRele.DEY)
             for (i = 0; i < 35; i++) {
                 if (objManualRele.DEY[i] == 1) {
                     dayWikend[i].checked = true;
@@ -361,29 +444,28 @@ function onMessageArrived(message) {
                 } ///ttt
             }
 
-            // releItem.forEach(function (parent, i) {
-            //   const firstDataElement = parent.querySelector('.datetime');
-            //   const firstTimeElement = parent.querySelector('.time');
-            //   const changeEvent = new Event('change'); // создаем событие
-            //   firstDataElement.dispatchEvent(changeEvent); // имитируем клик на кнопку
-            //   firstTimeElement.dispatchEvent(changeEvent); // имитируем клик на кнопку
-            //   // const clickEvent = new Event('click'); // создаем событие
-            //   // firstDataElement.dispatchEvent(clickEvent); // имитируем клик на кнопку
-            //   // firstTimeElement.dispatchEvent(clickEvent); // имитируем клик на кнопку
-            // });
+        releItem.forEach(function (parent, i) {
+            const firstDataElement = parent.querySelector('.datetime');
+            const firstTimeElement = parent.querySelector('.time');
+            const changeEvent = new Event('change'); // создаем событие
+            firstDataElement.dispatchEvent(changeEvent); // имитируем клик на кнопку
+            firstTimeElement.dispatchEvent(changeEvent); // имитируем клик на кнопку
+            // const clickEvent = new Event('click'); // создаем событие
+            // firstDataElement.dispatchEvent(clickEvent); // имитируем клик на кнопку
+            // firstTimeElement.dispatchEvent(clickEvent); // имитируем клик на кнопку
+        });
 
-            document.querySelectorAll('.rele__item').forEach((parent) => {
-                const datetime = parent.querySelectorAll('.datetime');
-                const time = parent.querySelectorAll('.time');
-                // switchSeting( parent);
-                // chekChecedDay(event);
-                chekDate(parent, datetime, time);
-                chekTime(parent, datetime, time);
-                showTimerIcons(parent, datetime, time); //Добавляє іконки таймера
+        document.querySelectorAll('.rele__item').forEach((parent) => {
+            const datetime = parent.querySelectorAll('.datetime');
+            const time = parent.querySelectorAll('.time');
+            // switchSeting( parent);
+            // chekChecedDay(event);
+            chekDate(parent, datetime, time);
+            chekTime(parent, datetime, time);
+            showTimerIcons(parent, datetime, time); //Добавляє іконки таймера
+        });
 
-            });
 
-        }
         // 2022-5-17T14:26
     }
     //************************************************************************************************************** */

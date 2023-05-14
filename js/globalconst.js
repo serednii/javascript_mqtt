@@ -60,30 +60,31 @@ const popapInfoTempItem = document.querySelectorAll('.popap-info__lamp-link');
 const CONNECT_SSID = userName + '_ssid';
 const LOCAL_IP = userName + '_ip';
 const getanaloInputA0 = userName + 'analogInputA0';
-const stanRele = userName + '_stanRele';
+const stanRele = userName + '_esp_to_brouser_stan_rele';
 const getEepromSensorData = userName + '_esp_to_brouser_eeprom_sensor_data';
 const getDeviceSensorData = userName + '_esp_to_brouser_device_sensor_data';
 const outstartDataSensor = userName + '_start-data-sensor-eepromAndDevice';
 const outSaveDataSensorEeprom = userName + '_brouser_to_esp__hex_address_sensor_eeprom';
-const outSaveNameSensorEeprom = userName + '_save-name-sensor-eeprom';
+// const outSaveNameSensorEeprom = userName + '_save-name-sensor-eeprom';
 const outCleareEPROM = userName + '_cleareEPROM';
 
-const outSaveDataSensorTemp = userName + '_save-data-sensor-temp';
+const outSaveDataSensorTemp = userName + '_brouser_to_esp_save_data_sensor_temp';
 const outSaveReleName = userName + '_save-rele-name';
 
 const getReleEpromUpr = userName + '_esp_to_brouser_rele_eprom_upr';
-const setReleEpromUpr = userName + '_rele_eprom_upr-set_number_sensor';
+const setReleEpromUpr = userName + '_brouser_to_esp_rele_eprom_upr_set_number_sensor';
 const setReleEpromUprErorrReleVklVukl = userName + '_brouser_to_esp_rele_erorr_vkl_vukl';
 const setReleEpromUprOneOrTwoRangeTemp = userName + '_brouser_to_esp_rele_set_one_or_two_range_temp';
 const setReleEpromUprChangeOnOrOff = userName + '_brouser_to_esp_rele__set_change_on_or_off';
-const setReleEpromUprManual = userName + '_rele-get-eprom_upr-manual';
-const setReleVklOtkl = userName + '_set-rele-vkl-otkl';
+const setReleEpromUprManual = userName + '_brouser_to_esp_rele_get_eprom_upr_manual';
+const setReleVklOtkl = userName + '_brouser_to_esp_set_rele_vkl_otkl';
 const setReleDATATIME = userName + '_set-rele-data-time';
 const setDefineDevice = userName + '_define_device';
 const setResetFunction = userName + '_resetFunction';
 
 
-const getReleDATATIME = userName + '_out-web-rele-data-time';
+const getReleDATATIME = userName + '_esp_to_brouser_rele_data_time';
+const getReleDATATIMEAll = userName + '_esp_to_brouser_rele_data_time_all';
 const getSensorName = userName + '_sensor-name';
 const getReleName = userName + '_rele-name';
 const getReleEpromUprManual = userName + '_rele-out-eprom_upr-manual';
