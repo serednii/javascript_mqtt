@@ -53,6 +53,8 @@ let arrayClass = [
   //   nameData: 'manual-'
   // }
 ];
+
+
 //Призначаємо for and id for label and input
 // setIdAndFor(releSetingSwitchLabel, releSetingSwitcIhnput,'seting-switch-');
 // setIdAndFor(labelDey, inputDey,'time-id-' );
@@ -61,15 +63,17 @@ let arrayClass = [
 // setIdAndFor(releSetingSensorSelectLabel, releSetingSensorSelect,'cars' );
 
 
-const addIdAndFor = () => arrayClass.forEach(e => {
+
+const addIdAndFor = () => {
   return new Promise(resolve => {
-    let L = document.querySelectorAll(e.labelData);
-    let I = document.querySelectorAll(e.inputData);
-    if (L && I) setIdAndFor(L, I, e.nameData);
+    arrayClass.forEach(e => {
+      let L = document.querySelectorAll(e.labelData);
+      let I = document.querySelectorAll(e.inputData);
+      if (L && I) setIdAndFor(L, I, e.nameData);
+    });
     resolve();
   });
-
-});
+}
 
 
 function setIdAndFor(classLabel, clasInput, nameId) {

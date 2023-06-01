@@ -1,6 +1,6 @@
 
 
-const svgTimerSeting =
+const SVG_TIMER_SETTING =
   `
 <svg class="rele__timer-seting-svg" version="1.1" width="32" height="32" viewBox="0 0 256 256">
 
@@ -72,7 +72,7 @@ transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
 `
 
 
-const svgReleSeting =
+const SVG_RELE_SETING =
   `
 <svg class="rele__seting-svg" version="1.1" x="0px" y="0px" viewBox="0 0 392.533 392.533">
 <path
@@ -137,7 +137,7 @@ s90.182,40.404,90.182,90.117C286.541,216.049,280.077,234.279,269.216,249.212z" /
 `
 
 
-const svgReleTimerSeting =
+const SVG_RELE_TIMER_SETING =
   `
 <div class="rele__timer-seting-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
@@ -195,7 +195,7 @@ const svgReleTimerSeting =
               </div>
 `
 
-const svgManual =
+const SVG_MANUAL =
   `
 <svg class="input-control-manually-svg" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
@@ -216,7 +216,7 @@ c78.399,0,143.399-68.899,143.399-143.399v-72.7V334.7L508.024,334.7z M197.724,97.
 </svg>
 `
 
-const liDataTime =
+const LI_DATE_TIME =
   `
 <li class="timer-date__item">
 <div class="timer-date__datetime-inner">
@@ -257,11 +257,12 @@ const liDataTime =
 </li>
 `
 
+
+
 //***************************************************************************************************************************************** */
-
-
-
 function innerHtmlText() {
+  console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+
   return new Promise(resolve => {
     let htmlString = "";
     for (let numRele = 0; numRele < 8; numRele++) {
@@ -280,8 +281,8 @@ function innerHtmlText() {
 
       <div class="rele__seting-switch__box">
         <div class="rele__seting-switch__checked">
-          <a href="#" class="rele__seting-switch__input">
-          ${svgReleSeting}
+        <a href="#" class="rele__seting-switch__input" data-click="releSetingSwitch">
+          ${SVG_RELE_SETING}
           </a>
 
         </div>
@@ -295,39 +296,42 @@ function innerHtmlText() {
       <div class="rele__section-seting">
         <div class="rele__name-wrapper">
           <input class="rele__name-input" type="text" placeholder="name rele" maxlength="40">
-            <input class="rele__name-btn btn btn-primary" type="submit" value="Save">
+          <input class="rele__name-btn btn btn-primary" data-click="saveReleName" type="submit" value="Save">
             </div>
             <div class="input-control-error__box" data-toggle="buttons">
               <h2 class="input-control-error__title  lan-error_title">При несправності термодатчика або таймера реле
                 залишаємо</h2>
-              <div class="btn-group" data-toggle="buttons">
-                <label class="input-control-error__label lan-on   btn btn-primary btn-label" ></label>
-                <input class="input-control-error btn-input"  type="radio" value="1" name="err${numRele}">
-                  <label class="input-control-error__label lan-off   btn btn-primary btn-label" ></label>
-                  <input class="input-control-error btn-input" type="radio" value="0" name="err${numRele}">
-                  </div>
+                  <div class="btn-group" data-toggle="buttons">
+                  <label class="input-control-error__label lan-on   btn btn-primary btn-label"></label>
+                  <input class="input-control-error  btn-input" data-click="inputControlErrorFun" type="radio"
+                    value="1" name="err${numRele}">
+                  <label class="input-control-error__label lan-off   btn btn-primary btn-label"></label>
+                  <input class="input-control-error  btn-input" data-click="inputControlErrorFun" type="radio"
+                    value="0" name="err${numRele}">
+                </div>
               </div>
 
               <div class="rele-temp-change__box">
                 <h2 class="rele-temp-change__title lan-change_on_off_rele">При спрацюванні термодатчика або таймера
                   включаємо або виключаємо  реле </h2>
-                <div class="btn-group" data-toggle="buttons">
-                  <label class="rele-temp-change__label lan-on btn btn-primary btn-label" ></label>
-                  <input class="rele-temp-change-radio btn-input" type="radio" value="1"
-                    name="vklOtklrele_${numRele}">
 
-                    <label class="rele-temp-change__label lan-off btn btn-primary btn-label" >
+                    <div class="btn-group" data-toggle="buttons">
+                    <label class="rele-temp-change__label lan-on btn btn-primary btn-label"></label>
+                    <input class="rele-temp-change-radio btn-input" data-click="releTempChangeRadioFun" type="radio"
+                      value="1" name="vklOtklrele_${numRele}">
+
+                    <label class="rele-temp-change__label lan-off btn btn-primary btn-label">
                     </label>
-                    <input class="rele-temp-change-radio btn-input"  type="radio" value="0"
-                      name="vklOtklrele_${numRele}">
-                    </div>
+                    <input class="rele-temp-change-radio btn-input" data-click="releTempChangeRadioFun" type="radio"
+                      value="0" name="vklOtklrele_${numRele}">
+                  </div>
                 </div>
 
                 <div class="rele__seting-sensor">
 
                   <h3 class="rele__seting-sensor__title lan-control_termo"> Управління термодатчиком</h3>
                   <label class="rele__seting-sensor__select-label lan-select_sensor pointer" ></label>
-                  <select class="rele__seting-sensor__select" name="cars0" >
+                  <select class="rele__seting-sensor__select" data-click="selectSensorOfRele" name="cars${numRele}">
                     <option value="15">None</option>
                     <!-- <option value="saab">Saab</option>
                     <option value="opel">Opel</option>
@@ -339,26 +343,26 @@ function innerHtmlText() {
                     <div class="rele-temp-change-input">
                       <div class="rele-temp__inner">
                         <label class="rele-temp-vkl-label rele-temp-vkl-start-label lan-temp_on" ></label>
-                        <input class="rele-temp-vkl" type="number" >
+                        <input class="rele-temp-vkl" data-click="releTempVklOtkl" type="number">
                       </div>
                       <div class="rele-temp__inner">
                         <label class="rele-temp-vkl-label rele-temp-vkl-end-label lan-temp_off" ></label>
-                        <input class="rele-temp-otkl" type="number" >
+                        <input class="rele-temp-otkl" data-click="releTempVklOtkl" type="number">
                       </div>
-                      <input class="rele-temp-btn btn btn-primary" type="submit" value="Change">
-                    </div>
-
+                      <input class="rele-temp-btn btn btn-primary" type="submit" data-click="saveTempVklOtkl"
+                      value="Change">
+                      </div>
                     <div class="rele-temp-change-select btn-group">
                       <div>
                         <label class="rele-temp-change-single__label lan-one_range btn btn-primary btn-label"></label>
-                        <input class="rele-temp-change-single btn-input" type="radio" value="1"
-                          name="single${numRele}">
+                          <input class="rele-temp-change-single btn-input" data-click="releTempChangeSingleFun"
+                          type="radio" value="0" name="single${numRele}">
                       </div>
 
                       <div>
                         <label class="rele-temp-change-single__label lan-two_range btn btn-primary btn-label"></label>
-                        <input class="rele-temp-change-single btn-input"  type="radio" value="0"
-                          name="single${numRele}">
+                          <input class="rele-temp-change-single btn-input" data-click="releTempChangeSingleFun"
+                          type="radio" value="1" name="single${numRele}">
                       </div>
                     </div>
                   </div>
@@ -370,20 +374,20 @@ function innerHtmlText() {
 
             <div class="rele__timer-seting-box">
               <div class="rele__timer-seting-show">
-                <a href="#" class="rele__timer-seting-show__input">
-                ${svgTimerSeting}
+              <a href="#" class="rele__timer-seting-show__input" data-click="releSetingTimerSwitch">
+                ${SVG_TIMER_SETTING}
                 </a>
                 <!-- <input class="rele__timer-seting-show__input switch-input form-check-input"   type="checkbox" name="" value="">
                   <label class="rele__timer-seting-show__label lan-control_timer switch-label form-check-label"> </label> -->
               </div>
-              ${svgReleTimerSeting}
-              ${svgReleTimerSeting}
-              ${svgReleTimerSeting}               
-              ${svgReleTimerSeting}             
-              ${svgReleTimerSeting}
+              ${SVG_RELE_TIMER_SETING}
+              ${SVG_RELE_TIMER_SETING}
+              ${SVG_RELE_TIMER_SETING}               
+              ${SVG_RELE_TIMER_SETING}             
+              ${SVG_RELE_TIMER_SETING}
             </div>
 
-            <div class="rele-control-timer ">
+            <div class="rele-control-timer " data-click="releitemChangeDataAndTime">
               <div class="delay-when-turned__inner">
                 <label> Затримка при включені в секундах</label>
                 <input class="delay-when-turned" type="number" name="" value="0">
@@ -391,16 +395,16 @@ function innerHtmlText() {
 
               <ul class="timer-date__items">
                 <!-- <h3 class="timer-date__datetime-control">По даті і годинах</h3> -->
-               ${liDataTime}
-               ${liDataTime}
-               ${liDataTime}
-               ${liDataTime}
-               ${liDataTime}
-               ${liDataTime}
+               ${LI_DATE_TIME}
+               ${LI_DATE_TIME}
+               ${LI_DATE_TIME}
+               ${LI_DATE_TIME}
+               ${LI_DATE_TIME}
+               ${LI_DATE_TIME}
 
                  <div class="btn-save-clear__box">
-                 <button class="time__btn btn btn-primary">Save as</button>
-                 <button class="time__btn-clear btn btn-primary">Cleal as</button>
+                 <button class="time__btn btn btn-primary" data-click="saveTimeData">Save as</button>
+                 <button class="time__btn-clear btn btn-primary" data-click="saveTimeClear">Cleal as</button>
                  </div>
 
                 </ul>
@@ -408,30 +412,59 @@ function innerHtmlText() {
                  </div>
                   <div class="input-control-manually">
                    <div class="input-control-manually-svg-box">
-                   <a href="#" class="rele__control-manually-show">
-                  ${svgManual}
+                   <a href="#" class="rele__control-manually-show" data-click="releManualAutoSwitch">
+                  ${SVG_MANUAL}
                     </a>
                    </div>
                   <div class="rele__control-manually">
                   <div class="form-check form-switch">
-                   <input class="rele__control-manually-on-off form-check-input" type="checkbox">
+                  <input class="rele__control-manually-on-off form-check-input" data-click="btnOnOffRele" type="checkbox">
                      </div>
                  </div>
                </div>
               </li>
-                        `
-        ;
+                        `;
     }
-    console.log(htmlString);
-    // let ul = document.createElement("ul");
-    // ul.classList.add('rele__list');
-    // ul.innerHTML = htmlString;
-    // document.querySelector('#rele__list').appendChild(ul);
-    console.log('nnerHtmlText()');
+
+    let ul = document.createElement("ul");
+    ul.classList.add('rele__list');
+    ul.innerHTML = htmlString;
+    document.querySelector('#rele__wrapper').appendChild(ul);
+    console.log('44444444444444444444444444444444444444444');
+
     resolve();
   })
-
-
 }
-// innerHtmlText();
+//***************************************************************************************************************************************** */
+
+
+
+//***************************************************************************************************************************************** */
+function innerHtmlTextEEPROM() {
+  return new Promise(resolve => {
+
+    for (let i = 0; i < 12; i++) {
+      document.querySelector('#id_address-eeprom__data').insertAdjacentHTML('afterBegin', `
+      <li class="address-eeprom__data">
+                <span class="address-eeprom__number"></span>
+                <span class="address-eeprom__address"></span>
+                <span class="address-eeprom__temp"> </span>
+                <input class="address-eeprom-name" type="text" id="" name="name${i}" placeholder="name sensor"
+                  maxlength="20">
+                <button class="address-eeprom__btn change" data-click="btnChangeEepromAddress">Change</button>
+                <button class="address-eeprom__btn clear" data-click="btnEepromAddressClear">Clear</button>
+              </li>
+      `)
+    }
+    resolve();
+  })
+}
+//***************************************************************************************************************************************** */
+
+
+
+
+
+
+
 

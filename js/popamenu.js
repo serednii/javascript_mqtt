@@ -4,7 +4,7 @@ const popapLocalStorage = document.querySelector('.popap-local-storage');
 const btnRestartDevice = document.querySelector('.popap-menu__btn-restart-device');
 
 const btnPopapAddNewDeviceClose = document.querySelector('.popap-local-storage__btn-close');
-const POPAP_MENU = document.querySelector('.popap-menu');
+const popap_menu = document.querySelector('.popap-menu');
 const popapLocalStorageMenu = document.querySelector('.popap-local-storage-menu');
 const popapLocalStoragMmenuList = document.querySelector('.popap-local-storage-menu__device');
 const popapLocalStoragMmenuName = document.querySelector('.popap-local-storage-menu__name');
@@ -55,35 +55,37 @@ function selectItemMenu(event) {
 
 
 
-window.onclick = (e) => {
-    // console.log(e.target)
+// window.onclick = (e) => {
+// console.log(e.target)
 
-    // if (e.target === popapLocalStoragMmenuList) { //Відкриваємо меню для добавлення або зміни нових пристроїв
-    //     console.log(e.target)
-    //     selectItemMenu(e.target);
-    // }
-    if (e.target === btnPopapAddNewDeviceOpen) { //Відкриваємо меню для добавлення або зміни нових пристроїв
-        POPAP_MENU.classList.toggle('popap-menu__show');
-        popapLocalStorage.classList.add('popap-local-storage__show');
-    }
+// if (e.target === popapLocalStoragMmenuList) { //Відкриваємо меню для добавлення або зміни нових пристроїв
+//     console.log(e.target)
+//     selectItemMenu(e.target);
+// }
 
 
+// if (e.target === btnPopapAddNewDeviceOpen) { //Відкриваємо меню для добавлення або зміни нових пристроїв
+//     POPAP_MENU.classList.toggle('popap-menu__show');
+//     popapLocalStorage.classList.add('popap-local-storage__show');
+// }
 
 
 
-    if (e.target != POPAP_MENU) //Відкриває закриває бургер меню
-        if (e.target != burgerMenu && e.target != burgerMenuLine && e.target != POPAP_MENU) {
-            POPAP_MENU.classList.remove('popap-menu__show');
-            burgerMenu.classList.remove('showw');
-        } else {
-            POPAP_MENU.classList.toggle('popap-menu__show');
-            burgerMenu.classList.toggle('showw');
-        }
-};
 
-btnRestartDevice.addEventListener('click', restartDevice);
 
-function restartDevice() {
-    let rezult = prompt("Підтвердіть введіть (ok)");
-    if (rezult === 'ok') sendMessage(setResetFunction, 'resetFunction');
-}
+// if (e.target != popap_menu) //Відкриває закриває бургер меню
+//     if (e.target != burgerMenu && e.target != burgerMenuLine && e.target != popap_menu) {
+//         popap_menu.classList.remove('popap-menu__show');
+//         burgerMenu.classList.remove('showw');
+//     } else {
+//         popap_menu.classList.toggle('popap-menu__show');
+//         burgerMenu.classList.toggle('showw');
+//     }
+// };
+
+// btnRestartDevice.addEventListener('click', restartDevice);
+
+// function restartDevice() {
+//     let rezult = prompt("Підтвердіть введіть (ok)");
+//     if (rezult === 'ok') sendMessage(SET_RESET_FUNCTION, 'resetFunction');
+// }

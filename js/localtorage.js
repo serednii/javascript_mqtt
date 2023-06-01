@@ -1,10 +1,13 @@
+
+
+
+
 const btnPopapAddNewDeviceOpen = document.querySelector('.popap-menu__btn-local-storage');
 btnPopapAddNewDeviceClose.addEventListener('click', () => {
   document.querySelector('.popap-local-storage').classList.remove('popap-local-storage__show');
 });
 
 document.querySelector('.popap-local-storage__top-list').addEventListener('click', selectItem)
-
 document.querySelector('.popap-local-storage__btn-add').addEventListener('click', checkForm)
 document.querySelector('.popap-local-storage__btn-remove').addEventListener('click', removeItemList)
 document.querySelector('.popap-local-storage__btn-close').addEventListener('click', closeForm)
@@ -35,7 +38,6 @@ function selectItem(event) {
     console.log(nam);
     event.target.closest('.popap-local-storage__top-item').classList.toggle('click');
   }
-
 }
 
 
@@ -95,8 +97,8 @@ function closeForm(event) {
 
 function checkForm(event) {
   event.preventDefault();
-  let arr = [];
-  let obj = {
+  const arr = [];
+  const obj = {
     // NameDevice: "",
     // Name: "",
   }
